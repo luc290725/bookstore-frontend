@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhà Sách Trực Tuyến - Hiện Đại</title>
+    <!-- Nhúng Font chữ hiện đại từ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Thanh điều hướng trên cùng (Header) sử dụng Glassmorphism -->
+    <header class="glass-header">
+        <div class="logo">
+            <h1>Book<span>Store</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm sách bạn yêu thích...">
+            <button id="searchBtn">Tìm kiếm</button>
+        </div>
+        <div class="user-actions">
+            <button class="cart-btn" onclick="window.location.href='giohang.html'">Giỏ hàng (<span
+                    id="cartCount">0</span>)</button>
+            <button class="login-btn" onclick="window.location.href='dangnhap.html'">Đăng nhập</button>
+        </div>
+    </header>
+
+    <!-- Phần thân chính của trang web -->
+    <main>
+        <!-- Banner chào mừng -->
+        <section class="hero-banner">
+            <div class="hero-content">
+                <h2>Khám phá Tri thức vô tận</h2>
+                <p>Hàng ngàn đầu sách hấp dẫn đang chờ đón bạn với mức giá ưu đãi nhất.</p>
+                <button class="explore-btn">Khám phá ngay</button>
+            </div>
+        </section>
+
+        <!-- Thanh lọc Thể loại -->
+        <nav class="category-nav">
+            <ul id="categoryList">
+                <li class="active" onclick="locTheoTheLoai(null, this)">Tất cả</li>
+                <!-- Danh sách thể loại sẽ được render bằng JS -->
+            </ul>
+        </nav>
+
+        <!-- Khu vực hiển thị danh sách Sách -->
+        <section class="books-section">
+            <h3 class="section-title">Sách Mới Cập Nhật</h3>
+            <!-- Container chứa các thẻ sách, sẽ được nhúng HTML tự động từ app.js -->
+            <div class="books-grid" id="booksContainer">
+                <!-- Hiệu ứng đang tải (Loading) -->
+                <div class="loading">Đang tải dữ liệu từ máy chủ...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chân trang (Footer) -->
+    <footer class="modern-footer">
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <div class="newsletter-content">
+                <h3>Đăng ký nhận bản tin</h3>
+                <p>Đừng bỏ lỡ các chương trình khuyến mãi và sách mới nhất từ BookStore.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Nhập địa chỉ email của bạn...">
+                <button>Đăng ký</button>
+            </div>
+        </div>
+
+        <!-- Main Footer Columns -->
+        <div class="footer-main">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">Book<span>Store</span></div>
+                <p class="brand-desc">Hệ thống nhà sách trực tuyến hàng đầu, mang đến cho bạn hàng ngàn tựa sách hấp dẫn với trải nghiệm mua sắm tuyệt vời nhất.</p>
+                <div class="contact-info">
+                    <p>123 Đường Sách, Quận 1, TP.HCM</p>
+                    <p>Hotline: 1900 1234 (8h - 22h)</p>
+                    <p>Email: cskh@bookstore.vn</p>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Dịch vụ</h3>
+                <ul>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Giới thiệu BookStore</a></li>
+                    <li><a href="#">Hệ thống trung tâm</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Câu hỏi thường gặp (FAQ)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tài khoản của tôi</h3>
+                <ul>
+                    <li><a href="dangnhap.html">Đăng nhập / Đăng ký</a></li>
+                    <li><a href="taikhoan.html">Thay đổi địa chỉ khách hàng</a></li>
+                    <li><a href="taikhoan.html">Chi tiết tài khoản</a></li>
+                    <li><a href="taikhoan.html">Lịch sử mua hàng</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom: Payment & Shipping & Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-partners">
+                <div class="partner-group">
+                    <strong>Phương thức thanh toán:</strong>
+                    <span>Tiền mặt (COD) | VNPay | MoMo | ZaloPay | Thẻ Visa/Mastercard</span>
+                </div>
+                <div class="partner-group">
+                    <strong>Đơn vị vận chuyển:</strong>
+                    <span>Giao Hàng Nhanh | J&T Express | Viettel Post | Ninjavan</span>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2026 BookStore - Nhà sách trực tuyến. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Nhúng file JavaScript -->
+    <script src="app.js"></script>
+</body>
+
+</html>

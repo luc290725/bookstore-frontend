@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Nhà Sách Trực Tuyến</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;"><h1>📚 Book<span>Store</span></h1></a>
+        </div>
+        <div class="user-actions">
+            <a href="index.html"><button class="login-btn">← Về trang chủ</button></a>
+        </div>
+    </header>
+
+    <!-- Form đăng nhập / đăng ký -->
+    <main class="auth-page">
+        <div class="auth-container">
+
+            <!-- Tab chuyển đổi Đăng nhập / Đăng ký -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="showTab('login')">Đăng nhập</button>
+                <button class="auth-tab" id="tabRegister" onclick="showTab('register')">Đăng ký</button>
+            </div>
+
+            <!-- Form Đăng nhập -->
+            <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+                <h2>Chào mừng trở lại!</h2>
+                <p class="auth-subtitle">Đăng nhập để tiếp tục mua sắm</p>
+
+                <div class="form-group">
+                    <label for="loginUsername">Tên đăng nhập</label>
+                    <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mật khẩu</label>
+                    <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+
+                <div id="loginError" class="error-message" style="display:none;"></div>
+
+                <button type="submit" class="auth-submit-btn">Đăng nhập</button>
+            </form>
+
+            <!-- Form Đăng ký -->
+            <form id="registerForm" class="auth-form" style="display: none;" onsubmit="handleRegister(event)">
+                <h2>Tạo tài khoản mới</h2>
+                <p class="auth-subtitle">Chỉ mất 30 giây để bắt đầu</p>
+
+                <div class="form-group">
+                    <label for="regUsername">Tên đăng nhập</label>
+                    <input type="text" id="regUsername" placeholder="Nhập tên đăng nhập" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Mật khẩu</label>
+                    <input type="password" id="regPassword" placeholder="Nhập mật khẩu" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="Nhập email" required>
+                </div>
+
+                <div id="registerError" class="error-message" style="display:none;"></div>
+                <div id="registerSuccess" class="success-message" style="display:none;"></div>
+
+                <button type="submit" class="auth-submit-btn">Đăng ký</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <div class="newsletter-content">
+                <h3>Đăng ký nhận bản tin</h3>
+                <p>Đừng bỏ lỡ các chương trình khuyến mãi và sách mới nhất từ BookStore.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Nhập địa chỉ email của bạn...">
+                <button>Đăng ký</button>
+            </div>
+        </div>
+
+        <!-- Main Footer Columns -->
+        <div class="footer-main">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">Book<span>Store</span></div>
+                <p class="brand-desc">Hệ thống nhà sách trực tuyến hàng đầu, mang đến cho bạn hàng ngàn tựa sách hấp dẫn với trải nghiệm mua sắm tuyệt vời nhất.</p>
+                <div class="contact-info">
+                    <p>📍 123 Đường Sách, Quận 1, TP.HCM</p>
+                    <p>📞 Hotline: 1900 1234 (8h - 22h)</p>
+                    <p>✉️ Email: cskh@bookstore.vn</p>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Dịch vụ</h3>
+                <ul>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Giới thiệu BookStore</a></li>
+                    <li><a href="#">Hệ thống trung tâm</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Câu hỏi thường gặp (FAQ)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tài khoản của tôi</h3>
+                <ul>
+                    <li><a href="dangnhap.html">Đăng nhập / Đăng ký</a></li>
+                    <li><a href="taikhoan.html">Thay đổi địa chỉ khách hàng</a></li>
+                    <li><a href="taikhoan.html">Chi tiết tài khoản</a></li>
+                    <li><a href="taikhoan.html">Lịch sử mua hàng</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom: Payment & Shipping & Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-partners">
+                <div class="partner-group">
+                    <strong>Phương thức thanh toán:</strong>
+                    <span>Tiền mặt (COD) | VNPay | MoMo | ZaloPay | Thẻ Visa/Mastercard</span>
+                </div>
+                <div class="partner-group">
+                    <strong>Đơn vị vận chuyển:</strong>
+                    <span>Giao Hàng Nhanh | J&T Express | Viettel Post | Ninjavan</span>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2026 BookStore - Nhà sách trực tuyến. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8080/identity/api";
+
+        // Chuyển đổi giữa Tab Đăng nhập và Đăng ký
+        function showTab(tab) {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const tabLogin = document.getElementById("tabLogin");
+            const tabRegister = document.getElementById("tabRegister");
+
+            if (tab === "login") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+                tabLogin.classList.add("active");
+                tabRegister.classList.remove("active");
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+                tabLogin.classList.remove("active");
+                tabRegister.classList.add("active");
+            }
+        }
+
+        // Xử lý Đăng nhập
+        function handleLogin(event) {
+            event.preventDefault(); // Ngăn form reload trang
+
+            const tenDangNhap = document.getElementById("loginUsername").value;
+            const matKhau = document.getElementById("loginPassword").value;
+            const errorDiv = document.getElementById("loginError");
+
+            fetch(`${API_BASE_URL}/taikhoan/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tenDangNhap: tenDangNhap, matKhau: matKhau })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Tên đăng nhập hoặc mật khẩu không đúng!");
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert("Đăng nhập thành công! Chào mừng " + data.tenDangNhap);
+
+                // Kiểm tra vai trò để điều hướng đến trang phù hợp
+                if (data.vaiTro === "ADMIN") {
+                    localStorage.setItem("adminUser", JSON.stringify(data));
+                    window.location.href = "admin.html"; // Admin -> Trang quản trị
+                } else {
+                    localStorage.setItem("user", JSON.stringify(data));
+                    window.location.href = "index.html"; // Khách hàng -> Trang chủ
+                }
+            })
+            .catch(error => {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = error.message;
+            });
+        }
+
+        // Xử lý Đăng ký
+        function handleRegister(event) {
+            event.preventDefault();
+
+            const tenDangNhap = document.getElementById("regUsername").value;
+            const matKhau = document.getElementById("regPassword").value;
+            const email = document.getElementById("regEmail").value;
+            const errorDiv = document.getElementById("registerError");
+            const successDiv = document.getElementById("registerSuccess");
+
+            fetch(`${API_BASE_URL}/taikhoan`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tenDangNhap: tenDangNhap, matKhau: matKhau, email: email, vaiTro: "KHACHHANG" })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Đăng ký thất bại. Tên đăng nhập có thể đã tồn tại!");
+                }
+                return response.text();
+            })
+            .then(data => {
+                errorDiv.style.display = "none";
+                successDiv.style.display = "block";
+                successDiv.innerText = "Đăng ký thành công! Bạn có thể đăng nhập ngay.";
+            })
+            .catch(error => {
+                successDiv.style.display = "none";
+                errorDiv.style.display = "block";
+                errorDiv.innerText = error.message;
+            });
+        }
+    </script>
+</body>
+</html>

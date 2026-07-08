@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Quản trị hệ thống</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <!-- Sidebar bên trái -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>Book<span>Store</span></h2>
+            <p>Trang quản trị</p>
+        </div>
+        <nav class="sidebar-menu">
+            <button class="menu-item active" onclick="chuyenTab('dashboard')">Tổng quan</button>
+            <button class="menu-item" onclick="chuyenTab('sach')">Quản lý Sách</button>
+            <button class="menu-item" onclick="chuyenTab('donhang')">Quản lý Đơn hàng</button>
+            <button class="menu-item" onclick="chuyenTab('khachhang')">Quản lý Khách hàng</button>
+            <button class="menu-item" onclick="chuyenTab('theloai')">Quản lý Thể loại</button>
+            <button class="menu-item" onclick="chuyenTab('tacgia')">Quản lý Tác giả</button>
+            <button class="menu-item" onclick="chuyenTab('nxb')">Quản lý Nhà xuất bản</button>
+            <button class="menu-item" onclick="chuyenTab('khuyenmai')">Quản lý Khuyến mãi</button>
+            <button class="menu-item" onclick="chuyenTab('danhgia')">Quản lý Đánh giá</button>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="dangXuat()">Đăng xuất</button>
+        </div>
+    </aside>
+
+    <!-- Nội dung chính bên phải -->
+    <main class="admin-main">
+
+        <!-- Header trên cùng -->
+        <header class="admin-header">
+            <h2 id="pageTitle">Tổng quan hệ thống</h2>
+            <div class="admin-user" onclick="toggleUserMenu()">
+                <span id="adminName">Quản trị viên</span>
+            </div>
+        </header>
+
+        <!-- Container chứa nội dung các trang con tải qua AJAX -->
+        <div id="main-content">
+            <!-- Nội dung sẽ được tải vào đây -->
+        </div>
+    </main>
+
+    <!-- Modal Form Thêm/Sửa (Sách, Thể loại...) -->
+    <div class="modal-overlay" id="modalOverlay" onclick="dongModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalTitle">Thêm mới</h3>
+                <button class="modal-close" onclick="dongModal()">✕</button>
+            </div>
+            <form id="modalForm" onsubmit="xuLySubmitForm(event)">
+                <div id="modalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="dongModal()">Hủy</button>
+                    <button type="submit" class="btn-save">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chi Tiết Đơn Hàng -->
+    <div class="modal-overlay" id="modalOrderDetail" onclick="dongModalDetail()">
+        <div class="modal-content" style="width: 700px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalDetailTitle">Chi tiết đơn hàng #1</h3>
+                <button class="modal-close" onclick="dongModalDetail()">✕</button>
+            </div>
+            <div id="modalDetailBody" style="padding: 20px;">
+                <div class="order-info-box">
+                    <p><strong>Khách hàng:</strong> <span id="dtTenKH"></span></p>
+                    <p><strong>Điện thoại:</strong> <span id="dtSdt"></span></p>
+                    <p><strong>Ngày đặt:</strong> <span id="dtNgay"></span></p>
+                    <p><strong>Trạng thái:</strong> <span id="dtTrangThai"></span></p>
+                </div>
+                <h4 style="margin-top:20px; margin-bottom:10px;">Sản phẩm đã mua</h4>
+                <table class="mini-table">
+                    <thead>
+                        <tr>
+                            <th>Sách</th>
+                            <th>Đơn giá</th>
+                            <th>SL</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dtItems"></tbody>
+                </table>
+                <h3 style="text-align: right; margin-top: 15px; color: #e74c3c;">Tổng cộng: <span
+                        id="dtTongTien"></span></h3>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-info" onclick="inHoaDon()" style="margin-right: 10px; margin-bottom: 0;">🖨️ In Hóa
+                    Đơn</button>
+                <button class="btn-cancel" onclick="dongModalDetail()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cập Nhật Trạng Thái -->
+    <div class="modal-overlay" id="modalOrderStatus" onclick="dongModalStatus()">
+        <div class="modal-content" style="width: 400px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Cập nhật trạng thái</h3>
+                <button class="modal-close" onclick="dongModalStatus()">✕</button>
+            </div>
+            <form onsubmit="luuTrangThaiDonHang(event)">
+                <div style="padding: 20px;">
+                    <input type="hidden" id="editOrderId">
+                    <div class="modal-field">
+                        <label>Chọn trạng thái mới</label>
+                        <select id="fTrangThai" required>
+                            <option value="CHO_XU_LY">Chờ xử lý</option>
+                            <option value="DA_XAC_NHAN">Đã xác nhận</option>
+                            <option value="DANG_GIAO">Đang giao</option>
+                            <option value="DA_GIAO">Đã giao</option>
+                            <option value="DA_HUY">Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="dongModalStatus()">Hủy</button>
+                    <button type="submit" class="btn-save">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Chi tiết Khách hàng -->
+    <div class="modal-overlay" id="modalCustomerDetail" onclick="dongModalCustomerDetail()">
+        <div class="modal-content" style="width: 500px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Chi tiết Khách hàng</h3>
+                <button class="modal-close" onclick="dongModalCustomerDetail()">✕</button>
+            </div>
+            <div style="padding: 20px;" class="order-info-box">
+                <p><strong>ID Khách hàng:</strong> <span id="dtCustId"></span></p>
+                <p><strong>ID Tài khoản:</strong> <span id="dtCustAccId"></span></p>
+                <p><strong>Họ tên:</strong> <span id="dtCustName"></span></p>
+                <p><strong>Email:</strong> <span id="dtCustEmail"></span></p>
+                <p><strong>Số điện thoại:</strong> <span id="dtCustPhone"></span></p>
+                <p><strong>Ngày sinh:</strong> <span id="dtCustDob"></span></p>
+                <p><strong>Giới tính:</strong> <span id="dtCustGender"></span></p>
+                <p><strong>Ngày đăng ký:</strong> <span id="dtCustRegDate"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="dongModalCustomerDetail()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cập nhật Khách hàng -->
+    <div class="modal-overlay" id="modalCustomerEdit" onclick="dongModalCustomerEdit()">
+        <div class="modal-content" style="width: 500px;" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>Cập nhật Khách hàng</h3>
+                <button class="modal-close" onclick="dongModalCustomerEdit()">✕</button>
+            </div>
+            <form onsubmit="luuKhachHang(event)">
+                <div style="padding: 20px;">
+                    <input type="hidden" id="editCustId">
+                    <input type="hidden" id="editCustAccId">
+                    <input type="hidden" id="editCustRegDate">
+                    <div class="modal-field">
+                        <label>Họ tên</label>
+                        <input type="text" id="editCustName" required>
+                    </div>
+                    <div class="modal-field">
+                        <label>Email</label>
+                        <input type="email" id="editCustEmail" required>
+                    </div>
+                    <div class="modal-field">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="editCustPhone">
+                    </div>
+                    <div class="modal-field">
+                        <label>Ngày sinh</label>
+                        <input type="date" id="editCustDob">
+                    </div>
+                    <div class="modal-field">
+                        <label>Giới tính</label>
+                        <select id="editCustGender">
+                            <option value="">Không xác định</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="dongModalCustomerEdit()">Hủy</button>
+                    <button type="submit" class="btn-save">Cập nhật</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

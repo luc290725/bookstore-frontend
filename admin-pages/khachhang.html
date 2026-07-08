@@ -1,0 +1,32 @@
+<section id="tab-khachhang" class="tab-content">
+            <div class="tab-header">
+                <h3>Danh sách khách hàng</h3>
+            </div>
+            
+            <div class="filter-bar">
+                <input type="text" id="searchKhachHang" placeholder="Nhập tên, email hoặc SĐT..." onkeyup="locKhachHang()">
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày đăng ký</th>
+                        <th width="220">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="tableKhachHang">
+                    <tr>
+                        <td colspan="6" class="loading">Đang tải...</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <!-- Phân trang Khách hàng -->
+            <div class="pagination" id="paginationKhachHang">
+                <!-- Nút phân trang sẽ được tạo bằng JS -->
+            </div>
+        </section>

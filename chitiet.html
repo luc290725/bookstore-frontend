@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sách - Nhà Sách Trực Tuyến</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;"><h1>📚 Book<span>Store</span></h1></a>
+        </div>
+        <div class="user-actions">
+            <a href="index.html"><button class="login-btn">← Về trang chủ</button></a>
+            <button class="cart-btn" onclick="window.location.href='giohang.html'">🛒 Giỏ hàng</button>
+        </div>
+    </header>
+
+    <main class="detail-page">
+        <div class="detail-container" id="bookDetail">
+            <div class="loading">Đang tải thông tin sách...</div>
+        </div>
+
+        <section class="reviews-section" style="max-width: 1200px; margin: 40px auto; padding: 0 20px;">
+            <div class="reviews-header">
+                <h3 class="section-title" style="margin-bottom: 0;">Đánh giá sản phẩm</h3>
+                <div id="averageRating" style="font-size: 20px; font-weight: bold; color: #f1c40f;"></div>
+            </div>
+
+            <div class="review-form" id="reviewFormArea" style="display: none;">
+                <h4>Viết đánh giá của bạn</h4>
+                <form id="formReview" onsubmit="submitReview(event)">
+                    <textarea id="reviewText" rows="4" placeholder="Chia sẻ cảm nhận của bạn về cuốn sách này..." required></textarea>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span style="font-weight: 500;">Chất lượng: </span>
+                            <select id="reviewRating" class="review-rating-select">
+                                <option value="5">⭐⭐⭐⭐⭐ Tuyệt vời</option>
+                                <option value="4">⭐⭐⭐⭐ Khá tốt</option>
+                                <option value="3">⭐⭐⭐ Trung bình</option>
+                                <option value="2">⭐⭐ Kém</option>
+                                <option value="1">⭐ Rất tệ</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-submit-btn" style="width: auto; padding: 10px 30px;">Gửi đánh giá</button>
+                    </div>
+                </form>
+            </div>
+            <div id="loginPromptReview" style="padding: 20px; background: #fff5f5; border-radius: 8px; text-align: center; margin-bottom: 30px;">
+                <p>Bạn cần <a href="dangnhap.html" style="color: #e74c3c; font-weight: bold;">Đăng nhập</a> để viết đánh giá.</p>
+            </div>
+
+            <div class="reviews-list" id="reviewsList">
+                <div class="loading">Đang tải đánh giá...</div>
+            </div>
+        </section>
+
+        <section class="suggested-books" style="margin-top: 40px;">
+            <h3 class="section-title">Gợi ý dành cho bạn</h3>
+            <div class="books-grid" id="suggestedBooks">
+                <div class="loading">Đang tải sách gợi ý...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="modern-footer">
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <div class="newsletter-content">
+                <h3>Đăng ký nhận bản tin</h3>
+                <p>Đừng bỏ lỡ các chương trình khuyến mãi và sách mới nhất từ BookStore.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Nhập địa chỉ email của bạn...">
+                <button>Đăng ký</button>
+            </div>
+        </div>
+
+        <!-- Main Footer Columns -->
+        <div class="footer-main">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">Book<span>Store</span></div>
+                <p class="brand-desc">Hệ thống nhà sách trực tuyến hàng đầu, mang đến cho bạn hàng ngàn tựa sách hấp dẫn với trải nghiệm mua sắm tuyệt vời nhất.</p>
+                <div class="contact-info">
+                    <p>📍 123 Đường Sách, Quận 1, TP.HCM</p>
+                    <p>📞 Hotline: 1900 1234 (8h - 22h)</p>
+                    <p>✉️ Email: cskh@bookstore.vn</p>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Dịch vụ</h3>
+                <ul>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Giới thiệu BookStore</a></li>
+                    <li><a href="#">Hệ thống trung tâm</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Câu hỏi thường gặp (FAQ)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tài khoản của tôi</h3>
+                <ul>
+                    <li><a href="dangnhap.html">Đăng nhập / Đăng ký</a></li>
+                    <li><a href="taikhoan.html">Thay đổi địa chỉ khách hàng</a></li>
+                    <li><a href="taikhoan.html">Chi tiết tài khoản</a></li>
+                    <li><a href="taikhoan.html">Lịch sử mua hàng</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom: Payment & Shipping & Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-partners">
+                <div class="partner-group">
+                    <strong>Phương thức thanh toán:</strong>
+                    <span>Tiền mặt (COD) | VNPay | MoMo | ZaloPay | Thẻ Visa/Mastercard</span>
+                </div>
+                <div class="partner-group">
+                    <strong>Đơn vị vận chuyển:</strong>
+                    <span>Giao Hàng Nhanh | J&T Express | Viettel Post | Ninjavan</span>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2026 BookStore - Nhà sách trực tuyến. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8080/identity/api";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Lấy id sách từ URL (ví dụ: chitiet.html?id=5)
+            const urlParams = new URLSearchParams(window.location.search);
+            const idSach = urlParams.get("id");
+
+            if (!idSach) {
+                document.getElementById("bookDetail").innerHTML = "<p>Không tìm thấy mã sách trong đường dẫn URL.</p>";
+                return;
+            }
+
+            // Gọi API lấy chi tiết sách theo ID
+            fetch(`${API_BASE_URL}/sach/${idSach}`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Không tìm thấy sách!");
+                    return res.json();
+                })
+                .then(sach => {
+                    const giaTienFormat = new Intl.NumberFormat('vi-VN').format(sach.giaBan);
+                    const hinhAnh = sach.hinhAnh ? sach.hinhAnh : "https://via.placeholder.com/400x550.png?text=Chưa+có+ảnh";
+
+                    document.getElementById("bookDetail").innerHTML = `
+                        <div class="detail-image">
+                            <img src="${hinhAnh}" alt="${sach.tenSach}">
+                        </div>
+                        <div class="detail-info">
+                            <h2>${sach.tenSach}</h2>
+                            <p class="detail-meta">📖 Số trang: ${sach.soTrang || 'Chưa cập nhật'}</p>
+                            <p class="detail-meta">📅 Năm xuất bản: ${sach.namXuatBan || 'Chưa cập nhật'}</p>
+                            <p class="detail-meta">📦 Số lượng còn: ${sach.soLuongTon}</p>
+                            <div class="detail-price">${giaTienFormat} đ</div>
+                            <p class="detail-description">${sach.moTa || 'Chưa có mô tả cho sách này.'}</p>
+                            <button class="add-to-cart-btn detail-cart-btn" onclick="alert('Đã thêm vào giỏ hàng!')">🛒 Thêm vào giỏ hàng</button>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    document.getElementById("bookDetail").innerHTML = `<p style="color:red;">${error.message}</p>`;
+                });
+                
+            // Load sách gợi ý
+            fetch(`${API_BASE_URL}/sach`)
+                .then(res => res.json())
+                .then(data => {
+                    // Xáo trộn mảng và lấy 4 sách đầu tiên
+                    const shuffled = data.sort(() => 0.5 - Math.random());
+                    const suggestions = shuffled.slice(0, 4);
+                    
+                    const container = document.getElementById("suggestedBooks");
+                    container.innerHTML = "";
+                    suggestions.forEach(s => {
+                        const giaFormatted = new Intl.NumberFormat('vi-VN').format(s.giaBan);
+                        container.innerHTML += `
+                            <div class="book-card">
+                                <img src="${s.hinhAnh || 'https://via.placeholder.com/150x200'}" alt="${s.tenSach}" class="book-img">
+                                <div class="book-info">
+                                    <h4 class="book-title">${s.tenSach}</h4>
+                                    <p class="book-price">${giaFormatted} đ</p>
+                                    <button class="add-to-cart-btn" onclick="window.location.href='chitiet.html?id=${s.id}'">Xem chi tiết</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                })
+                .catch(err => {
+                    document.getElementById("suggestedBooks").innerHTML = "<p>Lỗi tải sách gợi ý.</p>";
+                });
+                
+            // Khởi tạo phần Đánh Giá
+            initReviews();
+        });
+
+        function initReviews() {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (user) {
+                document.getElementById("loginPromptReview").style.display = "none";
+                document.getElementById("reviewFormArea").style.display = "block";
+            } else {
+                document.getElementById("loginPromptReview").style.display = "block";
+                document.getElementById("reviewFormArea").style.display = "none";
+            }
+            loadReviews();
+        }
+
+        function loadReviews() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+            const reviewsList = document.getElementById("reviewsList");
+            const averageRating = document.getElementById("averageRating");
+
+            fetch(`${API_BASE_URL}/danhgia/sach/${bookId}`)
+                .then(res => res.json())
+                .then(bookReviews => {
+                    if (!bookReviews || bookReviews.length === 0) {
+                        reviewsList.innerHTML = "<p style='color: #777;'>Chưa có đánh giá nào cho cuốn sách này. Hãy là người đầu tiên đánh giá!</p>";
+                        averageRating.innerHTML = "";
+                        return;
+                    }
+
+                    // Tính trung bình sao
+                    const totalStars = bookReviews.reduce((sum, rev) => sum + parseInt(rev.soSao), 0);
+                    const avg = (totalStars / bookReviews.length).toFixed(1);
+                    averageRating.innerHTML = `${avg} ⭐ (${bookReviews.length} đánh giá)`;
+
+                    // Hiển thị danh sách đánh giá
+                    let html = "";
+                    // Đảo ngược mảng để hiện đánh giá mới nhất lên đầu
+                    [...bookReviews].reverse().forEach(rev => {
+                        let starsHTML = "⭐".repeat(parseInt(rev.soSao));
+                        
+                        let dateStr = rev.ngayDanhGia;
+                        if (dateStr) {
+                            const d = new Date(dateStr);
+                            if (!isNaN(d)) {
+                                dateStr = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+                            }
+                        }
+
+                        html += `
+                            <div class="review-item">
+                                <div class="review-user">Khách hàng #${rev.idKhachHang}</div>
+                                <div class="review-stars">${starsHTML}</div>
+                                <div class="review-text">${rev.binhLuan}</div>
+                                <div class="review-date">${dateStr || "Gần đây"}</div>
+                            </div>
+                        `;
+                    });
+                    reviewsList.innerHTML = html;
+                })
+                .catch(err => {
+                    reviewsList.innerHTML = "<p style='color: red;'>Lỗi khi tải đánh giá từ máy chủ.</p>";
+                });
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                alert("Vui lòng đăng nhập để đánh giá.");
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+            
+            const rating = document.getElementById("reviewRating").value;
+            const text = document.getElementById("reviewText").value;
+
+            // Lấy ID Khách Hàng từ ID Tài Khoản
+            fetch(`${API_BASE_URL}/khachhang/taikhoan/${user.id}`)
+                .then(res => {
+                    if (res.ok) return res.json();
+                    throw new Error("NOT_FOUND");
+                })
+                .then(kh => {
+                    const payload = {
+                        idKhachHang: kh.id,
+                        idSach: bookId,
+                        soSao: parseInt(rating),
+                        binhLuan: text,
+                        ngayDanhGia: new Date().toISOString().split('T')[0] // yyyy-mm-dd
+                    };
+
+                    return fetch(`${API_BASE_URL}/danhgia`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                })
+                .then(res => {
+                    if (res && res.ok) {
+                        alert("Đã gửi đánh giá thành công!");
+                        document.getElementById("reviewText").value = "";
+                        document.getElementById("reviewRating").value = "5";
+                        loadReviews();
+                    } else if (res) {
+                        res.text().then(msg => alert("Lỗi khi gửi đánh giá: " + msg));
+                    }
+                })
+                .catch(err => {
+                    if (err.message === "NOT_FOUND") {
+                        alert("Vui lòng cập nhật Thông tin tài khoản trước khi viết đánh giá!");
+                        window.location.href = "taikhoan.html#info";
+                    } else {
+                        alert("Lỗi kết nối khi gửi đánh giá.");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>

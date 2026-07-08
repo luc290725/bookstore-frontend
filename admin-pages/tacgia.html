@@ -1,0 +1,27 @@
+<section id="tab-tacgia" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách tác giả</h3>
+        <button class="btn-add" onclick="moFormThemTacGia()">+ Thêm tác giả</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchTacGia" placeholder="Nhập tên tác giả..." onkeyup="locTacGia()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên tác giả</th>
+                <th width="150">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableTacGia">
+            <tr>
+                <td colspan="3" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" id="paginationTacGia"></div>
+</section>

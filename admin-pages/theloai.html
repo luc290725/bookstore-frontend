@@ -1,0 +1,27 @@
+<section id="tab-theloai" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách thể loại</h3>
+        <button class="btn-add" onclick="moFormThemTheLoai()">+ Thêm thể loại</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchTheLoai" placeholder="Nhập tên thể loại..." onkeyup="locTheLoai()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên thể loại</th>
+                <th width="150">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableTheLoai">
+            <tr>
+                <td colspan="3" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" id="paginationTheLoai"></div>
+</section>

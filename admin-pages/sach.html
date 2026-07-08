@@ -1,0 +1,31 @@
+<section id="tab-sach" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách sách</h3>
+        <button class="btn-add" onclick="moFormThemSach()">+ Thêm sách mới</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchSach" placeholder="Nhập tên sách..." onkeyup="locSach()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên sách</th>
+                <th>Giá bán</th>
+                <th>Số lượng tồn</th>
+                <th>Năm XB</th>
+                <th width="150">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableSach">
+            <tr>
+                <td colspan="6" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="pagination" id="paginationSach"></div>
+</section>

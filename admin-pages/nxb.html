@@ -1,0 +1,27 @@
+<section id="tab-nxb" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách nhà xuất bản</h3>
+        <button class="btn-add" onclick="moFormThemNxb()">+ Thêm nhà xuất bản</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchNxb" placeholder="Nhập tên NXB..." onkeyup="locNxb()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên nhà xuất bản</th>
+                <th width="150">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableNxb">
+            <tr>
+                <td colspan="3" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" id="paginationNxb"></div>
+</section>

@@ -1,0 +1,871 @@
+/* ==========================================
+   ADMIN DASHBOARD - CSS (Nâng cấp)
+   ========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   1. SIDEBAR
+   ========================================== */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.sidebar-logo {
+    padding: 25px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-logo h2 {
+    font-size: 24px;
+}
+
+.sidebar-logo span {
+    color: #e74c3c;
+}
+
+.sidebar-logo p {
+    font-size: 13px;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+.sidebar-menu {
+    flex: 1;
+    padding: 15px 0;
+    overflow-y: auto;
+}
+
+.menu-item {
+    display: block;
+    width: 100%;
+    padding: 14px 25px;
+    border: none;
+    background: none;
+    color: #bdc3c7;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+.menu-item.active {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    border-left: 4px solid #3498db;
+}
+
+.sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 12px;
+    background: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background: rgba(231, 76, 60, 0.3);
+}
+
+/* ==========================================
+   2. MAIN CONTENT & HEADER
+   ========================================== */
+.admin-main {
+    margin-left: 260px;
+    flex: 1;
+}
+
+.admin-header {
+    background: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.admin-header h2 {
+    font-size: 20px;
+    color: #2c3e50;
+}
+
+.admin-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.admin-user:hover {
+    background: #f0f2f5;
+}
+
+.dropdown-arrow {
+    font-size: 10px;
+    color: #7f8c8d;
+}
+
+.user-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    min-width: 200px;
+    overflow: hidden;
+    z-index: 200;
+    margin-top: 8px;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+.user-dropdown button {
+    display: block;
+    width: 100%;
+    padding: 12px 18px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    color: #333;
+}
+
+.user-dropdown button:hover {
+    background: #f8f9fa;
+}
+
+/* ==========================================
+   3. DASHBOARD STATS (6 Cards)
+   ========================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 25px 30px 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    border-left: 5px solid transparent;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    font-size: 28px;
+}
+
+.stat-card h3 {
+    font-size: 28px;
+    margin: 2px 0;
+}
+
+.stat-card p {
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.stat-blue {
+    border-left-color: #3498db;
+}
+
+.stat-blue h3 {
+    color: #3498db;
+}
+
+.stat-green {
+    border-left-color: #27ae60;
+}
+
+.stat-green h3 {
+    color: #27ae60;
+}
+
+.stat-purple {
+    border-left-color: #8e44ad;
+}
+
+.stat-purple h3 {
+    color: #8e44ad;
+}
+
+.stat-red {
+    border-left-color: #e74c3c;
+}
+
+.stat-red h3 {
+    color: #e74c3c;
+}
+
+.stat-orange {
+    border-left-color: #f39c12;
+}
+
+.stat-orange h3 {
+    color: #f39c12;
+}
+
+.stat-pink {
+    border-left-color: #e91e63;
+}
+
+.stat-pink h3 {
+    color: #e91e63;
+}
+
+/* ==========================================
+   4. DASHBOARD ROWS
+   ========================================== */
+.dashboard-row {
+    display: flex;
+    gap: 20px;
+    padding: 20px 30px 0;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    flex: 1;
+}
+
+.dashboard-card.full-width {
+    flex: 1;
+}
+
+.dashboard-card h3 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* ==========================================
+   5. BIỂU ĐỒ CỘT (Revenue Chart)
+   ========================================== */
+.chart-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 200px;
+    padding: 10px 0;
+}
+
+.chart-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.chart-bar {
+    width: 100%;
+    max-width: 50px;
+    background: linear-gradient(180deg, #3498db, #2980b9);
+    border-radius: 6px 6px 0 0;
+    min-height: 8px;
+    transition: all 0.6s ease;
+    position: relative;
+}
+
+.chart-bar:hover {
+    background: linear-gradient(180deg, #2ecc71, #27ae60);
+    transform: scaleY(1.02);
+}
+
+.chart-bar-value {
+    font-size: 11px;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.chart-bar-label {
+    font-size: 12px;
+    color: #95a5a6;
+    margin-top: 8px;
+    text-align: center;
+}
+
+/* ==========================================
+   6. MINI TABLE (Dashboard)
+   ========================================== */
+.mini-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mini-table thead th {
+    background: #f8f9fa;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 13px;
+    color: #7f8c8d;
+    font-weight: 600;
+    border-bottom: 2px solid #eee;
+}
+
+.mini-table tbody td {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.mini-table tbody tr:hover {
+    background: #fafafa;
+}
+
+/* ==========================================
+   7. TAB CONTENT
+   ========================================== */
+.tab-content {
+    display: none;
+    padding: 30px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tab-header h3 {
+    font-size: 20px;
+    color: #2c3e50;
+}
+
+.btn-add {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+/* ==========================================
+   8. DATA TABLE
+   ========================================== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.data-table thead th {
+    background: #2c3e50;
+    color: white;
+    padding: 14px 18px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.data-table tbody td {
+    padding: 12px 18px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #333;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.data-table .loading {
+    text-align: center;
+    padding: 30px;
+    color: #7f8c8d;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 6px 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.btn-edit {
+    background: #3498db;
+}
+
+.btn-edit:hover {
+    background: #2980b9;
+}
+
+.btn-delete {
+    background: #e74c3c;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+}
+
+/* ==========================================
+   9. STATUS BADGES
+   ========================================== */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-cho {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-dagiao {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-huy {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.stock-warning {
+    color: #e74c3c;
+    font-weight: 700;
+}
+
+.stock-danger {
+    color: white;
+    background: #e74c3c;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stock-low {
+    color: white;
+    background: #f39c12;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ==========================================
+   10. MODAL FORM
+   ========================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.show {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+#modalBody {
+    padding: 25px;
+}
+
+.modal-field {
+    margin-bottom: 18px;
+}
+
+.modal-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #2c3e50;
+    font-size: 14px;
+}
+
+.modal-field input,
+.modal-field textarea,
+.modal-field select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.modal-field input:focus,
+.modal-field textarea:focus,
+.modal-field select:focus {
+    border-color: #3498db;
+}
+
+.modal-footer {
+    padding: 15px 25px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-save {
+    padding: 10px 25px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-save:hover {
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+/* ==========================================
+   11. RESPONSIVE
+   ========================================== */
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard-row {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .admin-main {
+        margin-left: 200px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .dashboard-row {
+        padding: 15px;
+    }
+
+    .tab-content {
+        padding: 15px;
+    }
+
+    .admin-header {
+        padding: 15px;
+    }
+
+    .admin-header h2 {
+        font-size: 16px;
+    }
+
+    .data-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .mini-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .sidebar {
+        display: none;
+    }
+
+    .admin-main {
+        margin-left: 0;
+    }
+}
+
+/* Th�m v�o cu?i file admin.css */
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.filter-bar input,
+.filter-bar select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.filter-bar input {
+    flex: 1;
+    max-width: 400px;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
+}
+
+.order-info-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.order-info-box p {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #2c3e50;
+}
+
+.status-daxacnhan {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-danggiao {
+    background: #e2d9f3;
+    color: #5a32a3;
+}
+
+.btn-info {
+    padding: 6px 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+    background: #17a2b8;
+}
+
+.btn-info:hover {
+    background: #138496;
+}
+
+.btn-warning {
+    padding: 6px 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 5px;
+    transition: all 0.2s;
+    background: #f39c12;
+}
+
+.btn-warning:hover {
+    background: #e67e22;
+}
+
+/* Toolbar & Search */
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.btn-search {
+    padding: 8px 15px;
+    background: #34495e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.btn-search:hover {
+    background: #2c3e50;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #ecf0f1;
+}
+
+.page-btn:disabled {
+    color: #999;
+    cursor: not-allowed;
+}

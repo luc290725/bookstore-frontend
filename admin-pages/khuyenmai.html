@@ -1,0 +1,30 @@
+<section id="tab-khuyenmai" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách khuyến mãi</h3>
+        <button class="btn-add" onclick="moFormThemKhuyenMai()">+ Thêm khuyến mãi</button>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchKhuyenMai" placeholder="Nhập mã khuyến mãi..." onkeyup="locKhuyenMai()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Mã KM</th>
+                <th>Giảm (%)</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Điều kiện</th>
+                <th width="150">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableKhuyenMai">
+            <tr>
+                <td colspan="6" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" id="paginationKhuyenMai"></div>
+</section>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ hàng - Nhà Sách Trực Tuyến</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;"><h1>📚 Book<span>Store</span></h1></a>
+        </div>
+        <div class="user-actions">
+            <a href="index.html"><button class="login-btn">← Tiếp tục mua sắm</button></a>
+        </div>
+    </header>
+
+    <main class="cart-page">
+        <h2 class="section-title">🛒 Giỏ hàng của bạn</h2>
+
+        <div class="cart-content">
+            <!-- Bảng hiển thị các sản phẩm trong giỏ -->
+            <div class="cart-items" id="cartItems">
+                <!-- Sẽ được render bằng JS -->
+            </div>
+
+            <!-- Khung tổng tiền bên phải -->
+            <div class="cart-summary">
+                <h3>Tóm tắt đơn hàng</h3>
+                <div class="summary-row">
+                    <span>Tạm tính:</span>
+                    <span id="subtotal">0 đ</span>
+                </div>
+                <div class="summary-row">
+                    <span>Phí vận chuyển:</span>
+                    <span>30.000 đ</span>
+                </div>
+                <hr>
+                <div class="summary-row" style="margin-top: 15px;">
+                    <input type="text" id="voucherCode" placeholder="Nhập mã giảm giá..." style="flex:1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    <button onclick="apDungVoucher()" style="padding: 8px 15px; margin-left: 10px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer;">Áp dụng</button>
+                </div>
+                <div class="summary-row" id="discountRow" style="display: none; color: #e74c3c;">
+                    <span>Giảm giá:</span>
+                    <span id="discountAmount">0 đ</span>
+                </div>
+                <hr>
+                <div class="summary-row total-row">
+                    <span>Tổng cộng:</span>
+                    <span id="totalPrice">30.000 đ</span>
+                </div>
+                <button class="auth-submit-btn" onclick="datHang()">Đặt hàng ngay</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <!-- Newsletter Section -->
+        <div class="newsletter-section">
+            <div class="newsletter-content">
+                <h3>Đăng ký nhận bản tin</h3>
+                <p>Đừng bỏ lỡ các chương trình khuyến mãi và sách mới nhất từ BookStore.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" placeholder="Nhập địa chỉ email của bạn...">
+                <button>Đăng ký</button>
+            </div>
+        </div>
+
+        <!-- Main Footer Columns -->
+        <div class="footer-main">
+            <div class="footer-col brand-col">
+                <div class="footer-logo">Book<span>Store</span></div>
+                <p class="brand-desc">Hệ thống nhà sách trực tuyến hàng đầu, mang đến cho bạn hàng ngàn tựa sách hấp dẫn với trải nghiệm mua sắm tuyệt vời nhất.</p>
+                <div class="contact-info">
+                    <p>📍 123 Đường Sách, Quận 1, TP.HCM</p>
+                    <p>📞 Hotline: 1900 1234 (8h - 22h)</p>
+                    <p>✉️ Email: cskh@bookstore.vn</p>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Dịch vụ</h3>
+                <ul>
+                    <li><a href="#">Điều khoản sử dụng</a></li>
+                    <li><a href="#">Chính sách bảo mật</a></li>
+                    <li><a href="#">Giới thiệu BookStore</a></li>
+                    <li><a href="#">Hệ thống trung tâm</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Hỗ trợ</h3>
+                <ul>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Chính sách vận chuyển</a></li>
+                    <li><a href="#">Phương thức thanh toán</a></li>
+                    <li><a href="#">Câu hỏi thường gặp (FAQ)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Tài khoản của tôi</h3>
+                <ul>
+                    <li><a href="dangnhap.html">Đăng nhập / Đăng ký</a></li>
+                    <li><a href="taikhoan.html">Thay đổi địa chỉ khách hàng</a></li>
+                    <li><a href="taikhoan.html">Chi tiết tài khoản</a></li>
+                    <li><a href="taikhoan.html">Lịch sử mua hàng</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom: Payment & Shipping & Copyright -->
+        <div class="footer-bottom">
+            <div class="footer-partners">
+                <div class="partner-group">
+                    <strong>Phương thức thanh toán:</strong>
+                    <span>Tiền mặt (COD) | VNPay | MoMo | ZaloPay | Thẻ Visa/Mastercard</span>
+                </div>
+                <div class="partner-group">
+                    <strong>Đơn vị vận chuyển:</strong>
+                    <span>Giao Hàng Nhanh | J&T Express | Viettel Post | Ninjavan</span>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <p>&copy; 2026 BookStore - Nhà sách trực tuyến. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const API_BASE_URL = "http://localhost:8080/identity/api";
+        const PHI_VAN_CHUYEN = 30000;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderGioHang();
+        });
+
+        /**
+         * Lấy giỏ hàng từ localStorage và hiển thị lên giao diện
+         */
+        function renderGioHang() {
+            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            const container = document.getElementById("cartItems");
+
+            if (cartItems.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <p>🛒 Giỏ hàng trống!</p>
+                        <a href="index.html"><button class="explore-btn">Đi mua sắm nào</button></a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            let tongTien = 0;
+
+            cartItems.forEach((item, index) => {
+                const thanhTien = item.giaBan * item.soLuong;
+                tongTien += thanhTien;
+
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.hinhAnh || 'https://via.placeholder.com/80x100'}" alt="${item.tenSach}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <h4>${item.tenSach}</h4>
+                            <p class="cart-item-price">${new Intl.NumberFormat('vi-VN').format(item.giaBan)} đ</p>
+                        </div>
+                        <div class="cart-item-qty">
+                            <button onclick="thayDoiSoLuong(${index}, -1)">−</button>
+                            <span>${item.soLuong}</span>
+                            <button onclick="thayDoiSoLuong(${index}, 1)">+</button>
+                        </div>
+                        <div class="cart-item-total">
+                            ${new Intl.NumberFormat('vi-VN').format(thanhTien)} đ
+                        </div>
+                        <button class="cart-item-remove" onclick="xoaKhoiGio(${index})">✕</button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById("subtotal").innerText = new Intl.NumberFormat('vi-VN').format(tongTien) + " đ";
+            
+            // Tính tổng tiền có áp dụng voucher
+            let finalTotal = tongTien + PHI_VAN_CHUYEN - currentDiscount;
+            if (finalTotal < 0) finalTotal = 0;
+            
+            if (currentDiscount > 0) {
+                document.getElementById("discountRow").style.display = "flex";
+                document.getElementById("discountAmount").innerText = "-" + new Intl.NumberFormat('vi-VN').format(currentDiscount) + " đ";
+            }
+            
+            document.getElementById("totalPrice").innerText = new Intl.NumberFormat('vi-VN').format(finalTotal) + " đ";
+        }
+
+        function apDungVoucher() {
+            const code = document.getElementById("voucherCode").value.trim().toUpperCase();
+            if (!code) return;
+            
+            fetch(`${API_BASE_URL}/khuyenmai`)
+                .then(res => res.json())
+                .then(data => {
+                    const voucher = data.find(v => v.maKhuyenMai === code);
+                    if (voucher) {
+                        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                        let subtotal = cart.reduce((sum, item) => sum + (item.giaBan * item.soLuong), 0);
+                        
+                        if (voucher.maKhuyenMai.toUpperCase() === "FREESHIP") {
+                            currentDiscount = PHI_VAN_CHUYEN;
+                            alert("Áp dụng mã FREESHIP thành công! Bạn được miễn phí vận chuyển.");
+                        } else {
+                            currentDiscount = Math.floor(subtotal * (voucher.phanTramGiam / 100));
+                            alert(`Áp dụng mã thành công! Bạn được giảm ${voucher.phanTramGiam}% vào tổng tiền sách.`);
+                        }
+                        renderGioHang();
+                    } else {
+                        alert("Mã giảm giá không hợp lệ hoặc đã hết hạn!");
+                    }
+                })
+                .catch(() => alert("Lỗi khi kiểm tra mã khuyến mãi."));
+        }
+
+        /**
+         * Tăng / Giảm số lượng sách trong giỏ
+         */
+        function thayDoiSoLuong(index, delta) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].soLuong += delta;
+
+            if (cart[index].soLuong <= 0) {
+                cart.splice(index, 1); // Xóa nếu số lượng = 0
+            }
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderGioHang();
+        }
+
+        /**
+         * Xóa 1 sản phẩm khỏi giỏ
+         */
+        function xoaKhoiGio(index) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            renderGioHang();
+        }
+
+        /**
+         * Đặt hàng (Gọi API Checkout thật)
+         */
+        function datHang() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Giỏ hàng đang trống!");
+                return;
+            }
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                alert("Vui lòng đăng nhập trước khi đặt hàng!");
+                window.location.href = "dangnhap.html";
+                return;
+            }
+
+            let tongTien = cart.reduce((sum, item) => sum + (item.giaBan * item.soLuong), 0) + PHI_VAN_CHUYEN - currentDiscount;
+            if (tongTien < 0) tongTien = 0;
+
+            // Xây dựng payload CheckoutRequest
+            const payload = {
+                idTaiKhoan: user.id, // User đang lưu là TaiKhoan nên dùng .id (idTaiKhoan)
+                tongTien: tongTien,
+                items: cart.map(item => ({
+                    id: item.id,
+                    soLuong: item.soLuong,
+                    donGia: item.giaBan
+                }))
+            };
+
+            fetch(`${API_BASE_URL}/donhang/checkout`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (res.ok) {
+                    alert("Đặt hàng thành công!");
+                    localStorage.removeItem("cart");
+                    window.location.href = "taikhoan.html#orders";
+                } else {
+                    res.text().then(msg => {
+                        if (msg.includes("Tài khoản chưa có thông tin khách hàng")) {
+                            alert("Vui lòng cập nhật Thông tin tài khoản trước khi đặt hàng!");
+                            window.location.href = "taikhoan.html#info";
+                        } else {
+                            alert("Lỗi đặt hàng: " + msg);
+                        }
+                    });
+                }
+            })
+            .catch(err => {
+                alert("Không thể kết nối với máy chủ!");
+            });
+        }
+    </script>
+</body>
+</html>

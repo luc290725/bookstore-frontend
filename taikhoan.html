@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của tôi - BookStore</title>
+    <!-- Nhúng Font chữ hiện đại từ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Nhúng file CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="glass-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;">
+                <h1>Book<span>Store</span></h1>
+            </a>
+        </div>
+        <div class="user-actions">
+            <button class="cart-btn" onclick="window.location.href='giohang.html'">Giỏ hàng (<span
+                    id="cartCount">0</span>)</button>
+            <button class="login-btn" onclick="window.location.href='dangnhap.html'">Đăng nhập</button>
+        </div>
+    </header>
+
+    <main class="account-page">
+        <!-- Sidebar Menu -->
+        <div class="account-sidebar">
+            <div class="account-user-info">
+                <h2>👤</h2>
+                <h3 id="accUsername">Khách hàng</h3>
+            </div>
+            <ul class="account-menu">
+                <li class="active" onclick="switchTab('info', this)">Thông tin tài khoản</li>
+                <li onclick="switchTab('orders', this)">Đơn hàng đã đặt</li>
+                <li onclick="switchTab('vouchers', this)">Voucher đang có</li>
+                <li onclick="dangXuatKH()">Đăng xuất</li>
+            </ul>
+        </div>
+
+        <!-- Content Area -->
+        <div class="account-content">
+
+            <!-- Tab: Thông tin tài khoản -->
+            <div id="tab-info" class="tab-pane active">
+                <h2 class="tab-title">Thông tin tài khoản</h2>
+                <form id="formCapNhatThongTin" onsubmit="capNhatThongTin(event)">
+                    <div class="acc-form-group">
+                        <label>Tên đăng nhập (Không thể thay đổi)</label>
+                        <input type="text" id="accLoginName" class="form-control acc-form-input" readonly>
+                    </div>
+
+                    <div class="acc-form-group">
+                        <label>Họ và tên</label>
+                        <input type="text" id="accFullName" class="form-control acc-form-input" placeholder="Nhập họ và tên...">
+                    </div>
+
+                    <div class="acc-form-group">
+                        <label>Email</label>
+                        <input type="email" id="accEmail" class="form-control acc-form-input" placeholder="Nhập địa chỉ email...">
+                    </div>
+
+                    <div class="acc-form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="accPhone" class="form-control acc-form-input" placeholder="Nhập số điện thoại...">
+                    </div>
+
+                    <div class="acc-form-group">
+                        <label>Địa chỉ giao hàng mặc định</label>
+                        <textarea id="accAddress" class="form-control acc-form-input" rows="3" placeholder="Nhập địa chỉ nhận hàng..." style="resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" class="auth-submit-btn acc-submit-btn">Lưu thay đổi</button>
+                </form>
+            </div>
+
+            <!-- Tab: Đơn hàng đã đặt -->
+            <div id="tab-orders" class="tab-pane">
+                <h2 class="tab-title">Đơn hàng đã đặt</h2>
+                <div id="ordersContainer">
+                    <div class="loading">Đang tải danh sách đơn hàng...</div>
+                </div>
+            </div>
+
+            <!-- Tab: Voucher đang có -->
+            <div id="tab-vouchers" class="tab-pane">
+                <h2 class="tab-title">Voucher đang có</h2>
+                <div class="voucher-grid" id="vouchersContainer">
+                    <div class="loading">Đang tải danh sách voucher...</div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="footer-copyright">
+            <p style="text-align: center; padding: 20px;">&copy; 2026 BookStore - Nhà sách trực tuyến. Tất cả quyền được
+                bảo lưu.</p>
+        </div>
+    </footer>
+
+    <!-- Script xử lý chuyển Tab -->
+    <script>
+        function switchTab(tabId, element) {
+            // Update active menu
+            document.querySelectorAll('.account-menu li').forEach(li => li.classList.remove('active'));
+            element.classList.add('active');
+
+            // Update active content
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Kiểm tra hash trên URL để mở tab tương ứng (VD: taikhoan.html#orders)
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const targetTab = document.querySelector(`.account-menu li[onclick*="'${hash}'"]`);
+                if (targetTab) {
+                    targetTab.click();
+                }
+            }
+        });
+    </script>
+    <script src="app.js"></script>
+    <script>
+        // Gọi API lấy dữ liệu riêng cho trang Tài khoản
+        document.addEventListener("DOMContentLoaded", () => {
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) {
+                alert("Vui lòng đăng nhập để xem thông tin!");
+                window.location.href = "dangnhap.html";
+                return;
+            }
+
+            document.getElementById("accUsername").innerText = user.tenDangNhap;
+            document.getElementById("accLoginName").value = user.tenDangNhap;
+
+            // Gọi API kiểm tra Khách hàng
+            fetch(`${API_BASE_URL}/khachhang/taikhoan/${user.id}`)
+                .then(res => {
+                    if (res.ok) return res.json();
+                    return null;
+                })
+                .then(kh => {
+                    if (kh) {
+                        document.getElementById("accFullName").value = kh.hoTen || user.hoTen || '';
+                        document.getElementById("accEmail").value = kh.email || user.email || '';
+                        document.getElementById("accPhone").value = kh.soDienThoai || user.soDienThoai || '';
+                        if (user.diaChi) document.getElementById("accAddress").value = user.diaChi;
+                        taiDonHangKhachHang(kh.id);
+                    } else {
+                        // Dùng tạm data trong user nếu chưa có
+                        if (user.email) document.getElementById("accEmail").value = user.email;
+                        if (user.hoTen) document.getElementById("accFullName").value = user.hoTen;
+                        if (user.soDienThoai) document.getElementById("accPhone").value = user.soDienThoai;
+                        if (user.diaChi) document.getElementById("accAddress").value = user.diaChi;
+                        document.getElementById("ordersContainer").innerHTML = "<p>Bạn chưa có đơn hàng nào.</p>";
+                    }
+                }).catch(() => {
+                    if (user.email) document.getElementById("accEmail").value = user.email;
+                    if (user.hoTen) document.getElementById("accFullName").value = user.hoTen;
+                    if (user.soDienThoai) document.getElementById("accPhone").value = user.soDienThoai;
+                    if (user.diaChi) document.getElementById("accAddress").value = user.diaChi;
+                    document.getElementById("ordersContainer").innerHTML = "<p>Lỗi tải đơn hàng.</p>";
+                });
+
+            taiVoucherKhachHang();
+        });
+
+        function capNhatThongTin(event) {
+            event.preventDefault(); // Ngăn submit form mặc định
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) return;
+
+            const hoTen = document.getElementById("accFullName").value;
+            const email = document.getElementById("accEmail").value;
+            const soDienThoai = document.getElementById("accPhone").value;
+            const diaChi = document.getElementById("accAddress").value;
+
+            const payloadKhachHang = {
+                idTaiKhoan: user.id,
+                hoTen: hoTen,
+                email: email,
+                soDienThoai: soDienThoai,
+                ngayDangKy: new Date().toISOString().split('T')[0]
+            };
+
+            fetch(`${API_BASE_URL}/khachhang/taikhoan/${user.id}`)
+                .then(res => {
+                    if (res.ok) {
+                        return res.json().then(existingKh => {
+                            return fetch(`${API_BASE_URL}/khachhang/${existingKh.id}`, {
+                                method: "PUT",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify(payloadKhachHang)
+                            });
+                        });
+                    } else {
+                        return fetch(`${API_BASE_URL}/khachhang`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payloadKhachHang)
+                        });
+                    }
+                })
+                .then(res => {
+                    if (res && res.ok) {
+                        alert("Cập nhật thông tin thành công!");
+                        // Lưu lại một số trường vào localStorage cho tiện
+                        const updatedUser = { ...user, hoTen: hoTen, email: email, soDienThoai: soDienThoai, diaChi: diaChi };
+                        localStorage.setItem("user", JSON.stringify(updatedUser));
+                    } else {
+                        alert("Lỗi khi cập nhật trên máy chủ! Vui lòng điền đầy đủ các thông tin (Họ tên, SĐT, Email).");
+                    }
+                })
+                .catch(err => {
+                    alert("Lỗi kết nối đến máy chủ.");
+                });
+        }
+
+        function taiDonHangKhachHang(khachHangId) {
+            fetch(`${API_BASE_URL}/donhang/khachhang/${khachHangId}`)
+                .then(res => res.json())
+                .then(data => {
+                    const ordersContainer = document.getElementById("ordersContainer");
+                    
+                    if (!data || data.length === 0) {
+                        ordersContainer.innerHTML = "<p>Bạn chưa có đơn hàng nào.</p>";
+                        return;
+                    }
+
+                    const userOrders = data.reverse();
+
+                    let html = '';
+                    userOrders.forEach(o => {
+                        let status = "Chờ xử lý";
+                        let color = "#f39c12";
+                        if (o.trangThai === "DA_GIAO") { status = "Đã giao"; color = "#2ecc71"; }
+                        if (o.trangThai === "DA_HUY") { status = "Đã hủy"; color = "#e74c3c"; }
+
+                        html += `
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <span>Mã đơn: <strong>#${o.id}</strong></span>
+                                    <span class="order-status" style="color: ${color}">${status}</span>
+                                </div>
+                                <p>Ngày đặt: ${o.ngayDat || 'Vừa xong'}</p>
+                                <p>Tổng tiền: <strong>${new Intl.NumberFormat('vi-VN').format(o.tongTien || 0)} đ</strong></p>
+                            </div>
+                        `;
+                    });
+                    ordersContainer.innerHTML = html;
+                })
+                .catch(() => {
+                    document.getElementById("ordersContainer").innerHTML = "<p>Lỗi tải đơn hàng.</p>";
+                });
+        }
+
+        function taiVoucherKhachHang() {
+            fetch(`${API_BASE_URL}/khuyenmai`)
+                .then(res => res.json())
+                .then(data => {
+                    const vContainer = document.getElementById("vouchersContainer");
+                    if (data.length === 0) {
+                        vContainer.innerHTML = "<p>Chưa có voucher nào.</p>";
+                        return;
+                    }
+
+                    let html = '';
+                    data.forEach(v => {
+                        html += `
+                            <div class="voucher-card">
+                                <div>
+                                    <h3>Giảm ${v.phanTramGiam}%</h3>
+                                    <p style="font-size:12px; margin-top:5px; opacity:0.8">BookStore Promo</p>
+                                </div>
+                                <div class="voucher-code" onclick="copyVoucher('${v.maKhuyenMai}')" title="Click để copy">${v.maKhuyenMai}</div>
+                            </div>
+                        `;
+                    });
+                    vContainer.innerHTML = html;
+                })
+                .catch(() => {
+                    document.getElementById("vouchersContainer").innerHTML = "<p>Lỗi tải voucher.</p>";
+                });
+        }
+
+        function copyVoucher(code) {
+            if (navigator.clipboard && window.isSecureContext) {
+                // navigator.clipboard yêu cầu HTTPS hoặc localhost
+                navigator.clipboard.writeText(code).then(() => {
+                    alert("Đã copy mã: " + code);
+                });
+            } else {
+                // Fallback dùng execCommand nếu chạy file:// hoặc HTTP thường
+                const textArea = document.createElement("textarea");
+                textArea.value = code;
+                textArea.style.position = "absolute";
+                textArea.style.left = "-999999px";
+                document.body.prepend(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert("Đã copy mã: " + code);
+                } catch (error) {
+                    alert("Trình duyệt không hỗ trợ copy tự động, vui lòng copy thủ công: " + code);
+                } finally {
+                    textArea.remove();
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1149 @@
+/* Reset các định dạng mặc định của trình duyệt */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Outfit', sans-serif; /* Phông chữ hiện đại */
+}
+
+body {
+    background-color: #f4f7f6; /* Màu nền xám sáng nhẹ nhàng */
+    color: #333;
+}
+
+/* =========================================
+   1. HEADER (Kính mờ - Glassmorphism)
+   ========================================= */
+.glass-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    z-index: 1000;
+    
+    /* Hiệu ứng kính mờ (Glassmorphism) */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.logo h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.logo span {
+    color: #e74c3c; /* Chữ Store màu đỏ nổi bật */
+}
+
+/* Khung tìm kiếm */
+.search-bar {
+    display: flex;
+    width: 40%;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 30px 0 0 30px;
+    outline: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+.search-bar button {
+    padding: 10px 25px;
+    border: none;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.search-bar button:hover {
+    background: linear-gradient(135deg, #2980b9, #2471a3);
+}
+
+/* Các nút bấm trên Header */
+.user-actions button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 20px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cart-btn {
+    background-color: #f1c40f;
+    color: #333;
+}
+
+.login-btn {
+    background-color: transparent;
+    border: 2px solid #3498db !important;
+    color: #3498db;
+}
+
+.user-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   2. HERO BANNER
+   ========================================= */
+.hero-banner {
+    margin-top: 80px; /* Bù khoảng trống của Header */
+    height: 400px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(142, 68, 173, 0.8)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+.hero-content h2 {
+    font-size: 48px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.explore-btn {
+    padding: 12px 35px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background-color: white;
+    color: #8e44ad;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.explore-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255,255,255,0.4);
+}
+
+/* =========================================
+   3. KHU VỰC SÁCH (GRID LAYOUT)
+   ========================================= */
+.books-section {
+    padding: 50px 5%;
+}
+
+.section-title {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 4px;
+    background-color: #e74c3c;
+    bottom: -10px;
+    left: 0;
+    border-radius: 2px;
+}
+
+/* Lưới hiển thị sách */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+/* Thẻ từng quyển sách (Card) */
+.book-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.4s ease; /* Micro-animation khi di chuột */
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card:hover {
+    transform: translateY(-10px); /* Nổi lên */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* Đổ bóng sâu hơn */
+}
+
+/* Ảnh bìa sách */
+.book-image {
+    width: 100%;
+    height: 350px;
+    background-color: #eee;
+    object-fit: cover;
+}
+
+/* Nội dung thông tin sách */
+.book-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.book-title {
+    font-size: 18px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.book-author {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+.book-price {
+    font-size: 20px;
+    color: #e74c3c;
+    font-weight: bold;
+    margin-top: auto; /* Đẩy giá tiền xuống cuối thẻ */
+}
+
+.add-to-cart-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #2c3e50;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #34495e;
+}
+
+/* =========================================
+   4. FOOTER
+   ========================================= */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: white;
+    margin-top: 50px;
+}
+
+/* =========================================
+   5. LOADING ANIMATION
+   ========================================= */
+.loading {
+    text-align: center;
+    padding: 60px;
+    font-size: 18px;
+    color: #7f8c8d;
+    grid-column: 1 / -1;
+}
+
+/* =========================================
+   6. TRANG ĐĂNG NHẬP / ĐĂNG KÝ
+   ========================================= */
+.auth-page {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+}
+
+.auth-container {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.auth-tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #95a5a6;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.auth-tab.active {
+    color: #3498db;
+    border-bottom: 3px solid #3498db;
+}
+
+.auth-form h2 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #3498db;
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.error-message {
+    background: #ffe0e0;
+    color: #c0392b;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* =========================================
+   7. TRANG CHI TIẾT SÁCH
+   ========================================= */
+.detail-page {
+    margin-top: 100px;
+    padding: 20px 5%;
+}
+
+.detail-container {
+    display: flex;
+    gap: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.detail-image img {
+    width: 350px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.detail-info h2 {
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.detail-meta {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+.detail-price {
+    font-size: 28px;
+    color: #e74c3c;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.detail-description {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.detail-cart-btn {
+    max-width: 300px;
+    font-size: 16px;
+    padding: 14px 30px;
+}
+
+/* =========================================
+   8. TRANG GIỎ HÀNG
+   ========================================= */
+.cart-page {
+    margin-top: 100px;
+    padding: 20px 5%;
+}
+
+.cart-content {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.cart-items {
+    flex: 2;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+}
+
+.cart-item:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.cart-item-image {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-info h4 {
+    font-size: 16px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-item-qty button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.2s;
+}
+
+.cart-item-qty button:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.cart-item-total {
+    font-weight: 700;
+    color: #e74c3c;
+    min-width: 120px;
+    text-align: right;
+}
+
+.cart-item-remove {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+.cart-item-remove:hover {
+    transform: scale(1.3);
+}
+
+.cart-summary {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.cart-summary h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    color: #555;
+}
+
+.total-row {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.cart-summary hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0;
+}
+
+.cart-summary .auth-submit-btn {
+    margin-top: 20px;
+}
+
+.empty-cart {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.empty-cart p {
+    font-size: 20px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   CATEGORY NAV
+   ========================================= */
+.category-nav {
+    background: white;
+    padding: 15px 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.category-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.category-nav li {
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.3s ease;
+    background: #f4f7f6;
+}
+
+.category-nav li:hover {
+    background: #e0e6ed;
+    color: #333;
+}
+
+.category-nav li.active {
+    background: #e74c3c;
+    color: white;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+}
+
+/* Fix Hero Banner spacing */
+main {
+    margin-top: 80px; /* To clear the fixed header */
+}
+
+/* =========================================
+   MODERN FOOTER
+   ========================================= */
+.modern-footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-family: 'Outfit', sans-serif;
+    margin-top: 60px;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+    background-color: #e74c3c;
+    padding: 40px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.newsletter-content h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.newsletter-content p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    max-width: 500px;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 14px;
+}
+
+.newsletter-form button {
+    padding: 12px 30px;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.newsletter-form button:hover {
+    background-color: #34495e;
+}
+
+/* Main Footer Columns */
+.footer-main {
+    padding: 60px 10%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.footer-logo {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.footer-logo span {
+    color: #e74c3c;
+}
+
+.brand-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #bdc3c7;
+}
+
+.contact-info p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #bdc3c7;
+}
+
+.footer-col h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: white;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-col h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: #e74c3c;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col ul li {
+    margin-bottom: 12px;
+}
+
+.footer-col ul li a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.footer-col ul li a:hover {
+    color: #e74c3c;
+    padding-left: 5px;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    background-color: #1a252f;
+    padding: 20px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-partners {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.partner-group {
+    font-size: 13px;
+    color: #bdc3c7;
+}
+
+.partner-group strong {
+    color: white;
+    margin-right: 10px;
+}
+
+.footer-copyright p {
+    font-size: 13px;
+    color: #bdc3c7;
+}
+
+/* Responsive Footer */
+@media (max-width: 992px) {
+    .footer-main {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .newsletter-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .newsletter-form {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .footer-main {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* =========================================
+   USER DROPDOWN MENU
+   ========================================= */
+.user-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Cầu nối vô hình để giữ trạng thái hover khi chuột di chuyển xuống */
+.user-dropdown-container::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: transparent;
+}
+
+.user-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    margin-top: 10px;
+}
+
+.user-dropdown-container:hover .user-dropdown-menu {
+    display: block;
+}
+
+.user-dropdown-menu a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    transition: 0.3s;
+}
+
+.user-dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.user-dropdown-menu a:hover {
+    background-color: #f9f9f9;
+    color: #e74c3c;
+}
+
+/* =========================================
+   ACCOUNT PAGE
+   ========================================= */
+.account-page {
+    max-width: 1200px;
+    margin: 120px auto 40px;
+    padding: 0 20px;
+    display: flex;
+    gap: 30px;
+}
+
+.account-sidebar {
+    width: 280px;
+    background: white;
+    padding: 20px 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.account-user-info {
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.account-user-info h3 {
+    margin-top: 10px;
+    color: #2c3e50;
+}
+
+.account-menu {
+    list-style: none;
+}
+
+.account-menu li {
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-left: 4px solid transparent;
+    color: #555;
+    font-weight: 500;
+}
+
+.account-menu li:hover {
+    background: #f9f9f9;
+    color: #e74c3c;
+}
+
+.account-menu li.active {
+    border-left-color: #e74c3c;
+    background: #fff5f5;
+    color: #e74c3c;
+}
+
+.account-content {
+    flex: 1;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    min-height: 500px;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-title {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+/* Order styles */
+.order-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+}
+
+.order-status {
+    font-weight: bold;
+    color: #f39c12;
+}
+
+/* Voucher styles */
+.voucher-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.voucher-card {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.voucher-code {
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Account Form inline style replacements */
+.acc-form-group {
+    margin-bottom: 20px;
+}
+.acc-form-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+}
+.acc-form-input:read-only {
+    background: #f1f1f1;
+    cursor: not-allowed;
+    color: #777;
+}
+.acc-submit-btn {
+    width: auto;
+    padding: 12px 35px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+/* =========================================
+   REVIEWS SECTION
+   ========================================= */
+.reviews-section {
+    margin-top: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.review-form {
+    margin-bottom: 30px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.review-form textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.review-rating-select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.review-item {
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-user {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.review-stars {
+    color: #f1c40f;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.6;
+}
+
+.review-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 5px;
+}
+
+.reviews-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.reviews-list::-webkit-scrollbar {
+    width: 6px;
+}
+.reviews-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+.reviews-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.reviews-list::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}

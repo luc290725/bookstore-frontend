@@ -1,0 +1,30 @@
+<section id="tab-danhgia" class="tab-content">
+    <div class="tab-header">
+        <h3>Danh sách đánh giá</h3>
+    </div>
+
+    <div class="filter-bar">
+        <input type="text" id="searchDanhGia" placeholder="Nhập bình luận hoặc Sách..." onkeyup="locDanhGia()">
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Sách</th>
+                <th>Đánh giá</th>
+                <th>Bình luận</th>
+                <th>Ngày ĐG</th>
+                <th width="100">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="tableDanhGia">
+            <tr>
+                <td colspan="7" class="loading">Đang tải...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" id="paginationDanhGia"></div>
+</section>

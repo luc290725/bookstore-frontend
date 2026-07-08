@@ -1,0 +1,36 @@
+<section id="tab-donhang" class="tab-content">
+            <div class="tab-header">
+                <h3>Danh sách đơn hàng</h3>
+            </div>
+
+            <div class="filter-bar">
+                <input type="text" id="searchOrder" placeholder="Tìm theo Mã đơn hoặc Tên KH..." onkeyup="locDonHang()">
+                <select id="filterStatus" onchange="locDonHang()">
+                    <option value="">Tất cả trạng thái</option>
+                    <option value="CHO_XU_LY">Chờ xử lý</option>
+                    <option value="DA_XAC_NHAN">Đã xác nhận</option>
+                    <option value="DANG_GIAO">Đang giao</option>
+                    <option value="DA_GIAO">Đã giao</option>
+                    <option value="DA_HUY">Đã hủy</option>
+                </select>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Ngày đặt</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th width="200">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="tableDonHang">
+                    <tr>
+                        <td colspan="7" class="loading">Đang tải...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>

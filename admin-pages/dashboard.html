@@ -1,0 +1,82 @@
+<section id="tab-dashboard" class="tab-content active">
+            <!-- Hàng 1: 6 thẻ thống kê -->
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <h3 id="statTotalBooks">0</h3>
+                    <p>Tổng số sách</p>
+                </div>
+                <div class="stat-card stat-green">
+                    <h3 id="statTotalOrders">0</h3>
+                    <p>Đơn hàng thành công</p>
+                </div>
+                <div class="stat-card stat-purple">
+                    <h3 id="statTotalCustomers">0</h3>
+                    <p>Khách hàng</p>
+                </div>
+                <div class="stat-card stat-red">
+                    <h3 id="statRevenue">0 đ</h3>
+                    <p>Tổng doanh thu</p>
+                </div>
+                <div class="stat-card stat-orange">
+                    <h3 id="statPendingOrders">0</h3>
+                    <p>Đơn hàng chờ xử lý</p>
+                </div>
+                <div class="stat-card stat-pink">
+                    <h3 id="statLowStock">0</h3>
+                    <p>Sách sắp hết hàng</p>
+                </div>
+            </div>
+
+            <!-- Hàng 2: Biểu đồ + Đơn hàng mới nhất -->
+            <div class="dashboard-row">
+                <!-- Biểu đồ doanh thu -->
+                <div class="dashboard-card chart-card">
+                    <h3>Doanh thu 7 ngày gần đây</h3>
+                    <div class="chart-container" id="revenueChart">
+                        <!-- Biểu đồ cột sẽ được render bằng JS -->
+                    </div>
+                </div>
+
+                <!-- Đơn hàng mới nhất -->
+                <div class="dashboard-card orders-card">
+                    <h3>Đơn hàng mới nhất</h3>
+                    <table class="mini-table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrders">
+                            <tr>
+                                <td colspan="4" class="loading">Đang tải...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Hàng 3: Sách sắp hết hàng -->
+            <div class="dashboard-row">
+                <div class="dashboard-card full-width">
+                    <h3>Sách sắp hết hàng (tồn kho ≤ 5)</h3>
+                    <table class="mini-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên sách</th>
+                                <th>Số lượng tồn</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lowStockBooks">
+                            <tr>
+                                <td colspan="4" class="loading">Đang tải...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
