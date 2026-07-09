@@ -52,6 +52,14 @@
                     <span>Tổng cộng:</span>
                     <span id="totalPrice">30.000 đ</span>
                 </div>
+                <div style="margin: 15px 0;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50;">Phương thức thanh toán:</label>
+                    <select id="paymentMethod" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: #f8f9fa;">
+                        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                        <option value="VNPAY">Thanh toán qua VNPay (Mã QR)</option>
+                        <option value="MOMO">Thanh toán qua Ví MoMo</option>
+                    </select>
+                </div>
                 <button class="auth-submit-btn" onclick="datHang()">Đặt hàng ngay</button>
             </div>
         </div>
@@ -280,6 +288,13 @@
                     donGia: item.giaBan
                 }))
             };
+
+            const paymentMethod = document.getElementById("paymentMethod").value;
+            if (paymentMethod === "VNPAY") {
+                if(!confirm("Hệ thống sẽ chuyển hướng đến cổng thanh toán VNPay (Sử dụng VNPayAdapter). Bạn có muốn tiếp tục?")) return;
+            } else if (paymentMethod === "MOMO") {
+                if(!confirm("Hệ thống sẽ mở ứng dụng MoMo (Sử dụng MoMoAdapter). Bạn có muốn tiếp tục?")) return;
+            }
 
             fetch(`${API_BASE_URL}/donhang/checkout`, {
                 method: "POST",
