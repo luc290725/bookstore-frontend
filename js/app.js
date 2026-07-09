@@ -1,9 +1,15 @@
-// URL gốc của Backend (Java Spring Boot)
+// ==========================================
+// CẤU HÌNH ĐƯỜNG DẪN TƯƠNG ĐỐI
+// ==========================================
+const isInPagesDir = window.location.pathname.includes('/pages/');
+const rootPath = isInPagesDir ? '../' : './';
+const pagesPath = isInPagesDir ? './' : 'pages/';
+
+// ==========================================
+// 1. GỌI API LẤY DANH SÁCH THỂ LOẠI (Gắn vào Sidebar)
+// ==========================================
 const API_BASE_URL = "http://localhost:8080/identity/api";
 
-/**
- * Hàm này sẽ được gọi tự động ngay khi trang web tải xong
- */
 let globalBooks = [];
 let currentCategoryId = null;
 
@@ -116,7 +122,7 @@ function taoTheSachHTML(sach) {
     const hinhAnh = sach.hinhAnh ? sach.hinhAnh : "https://via.placeholder.com/250x350.png?text=Chưa+có+ảnh+bìa";
 
     return `
-        <div class="book-card" onclick="window.location.href='chitiet.html?id=${sach.id}'" style="cursor: pointer;">
+        <div class="book-card" onclick="window.location.href='${pagesPath}chitiet.html?id=${sach.id}'" style="cursor: pointer;">
             <img src="${hinhAnh}" alt="${sach.tenSach}" class="book-image"
                  onerror="this.onerror=null; this.src='https://placehold.co/250x350/e8e8e8/999?text=${encodeURIComponent(sach.tenSach)}';">
             <div class="book-info">
@@ -190,9 +196,9 @@ function capNhatTrangThaiDangNhap() {
                 <div class="user-dropdown-container">
                     <button class="login-btn">👤 ${user.tenDangNhap} ▼</button>
                     <div class="user-dropdown-menu">
-                        <a href="taikhoan.html#info">👤 Thông tin tài khoản</a>
-                        <a href="taikhoan.html#orders">📦 Đơn hàng đã đặt</a>
-                        <a href="taikhoan.html#vouchers">🎟️ Voucher đang có</a>
+                        <a href="${pagesPath}taikhoan.html#info">👤 Thông tin tài khoản</a>
+                        <a href="${pagesPath}taikhoan.html#orders">📦 Đơn hàng đã đặt</a>
+                        <a href="${pagesPath}taikhoan.html#vouchers">🎟️ Voucher đang có</a>
                         <a href="#" onclick="dangXuatKH()">🚪 Đăng xuất</a>
                     </div>
                 </div>
@@ -205,7 +211,7 @@ function capNhatTrangThaiDangNhap() {
 function dangXuatKH() {
     if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
         localStorage.removeItem("user");
-        window.location.href = "index.html";
+        window.location.href = `${rootPath}index.html`;
     }
 }
 
