@@ -8,6 +8,16 @@ const pagesPath = isInPagesDir ? './' : 'pages/';
 // ==========================================
 // 1. GỌI API LẤY DANH SÁCH THỂ LOẠI (Gắn vào Sidebar)
 // ==========================================
+// Đoạn code chèn Header để vượt qua trang cảnh báo của Ngrok
+const originalFetch = window.fetch;
+window.fetch = function () {
+    let [resource, config] = arguments;
+    if (config === undefined) config = {};
+    if (config.headers === undefined) config.headers = {};
+    config.headers['ngrok-skip-browser-warning'] = '69420';
+    return originalFetch(resource, config);
+};
+
 const API_BASE_URL = "http://localhost:8080/identity/api";
 
 let globalBooks = [];
@@ -23,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Lắng nghe sự kiện tìm kiếm sách
     const searchInput = document.getElementById("searchInput");
     const searchBtn = document.getElementById("searchBtn");
-    
+
     if (searchInput) {
         searchInput.addEventListener("keyup", (e) => {
             if (e.key === "Enter") locSachTrangChu();
@@ -40,14 +50,14 @@ function layDanhSachTheLoai() {
         .then(data => {
             const categoryList = document.getElementById("categoryList");
             if (!categoryList) return;
-            
+
             // Xóa các category cũ (ngoại trừ "Tất cả")
             const allLi = `<li class="active" onclick="locTheoTheLoai(null, this)">Tất cả</li>`;
-            
+
             const catsHTML = data.map(c => `
                 <li onclick="locTheoTheLoai(${c.id}, this)">${c.tenTheLoai}</li>
             `).join('');
-            
+
             categoryList.innerHTML = allLi + catsHTML;
         })
         .catch(err => console.error("Lỗi lấy thể loại:", err));
@@ -55,14 +65,14 @@ function layDanhSachTheLoai() {
 
 function locTheoTheLoai(idTheLoai, element) {
     currentCategoryId = idTheLoai;
-    
+
     // Đổi màu nút active
     const listItems = document.querySelectorAll("#categoryList li");
     listItems.forEach(li => li.classList.remove("active"));
     if (element) {
         element.classList.add("active");
     }
-    
+
     locSachTrangChu();
 }
 
@@ -90,7 +100,7 @@ function locSachTrangChu() {
     if (!booksContainer) return;
 
     const keyword = document.getElementById("searchInput") ? document.getElementById("searchInput").value.toLowerCase() : "";
-    
+
     // Lọc theo keyword và category
     const filteredBooks = globalBooks.filter(sach => {
         const matchKeyword = sach.tenSach.toLowerCase().includes(keyword);
@@ -182,7 +192,7 @@ function capNhatTrangThaiDangNhap() {
     const user = JSON.parse(localStorage.getItem("user"));
     const userActions = document.querySelector(".user-actions");
     const loginBtn = document.querySelector(".login-btn");
-    
+
     if (user && userActions) {
         // Đã đăng nhập -> Hiển thị dạng Dropdown Menu
         const existingDropdown = document.querySelector(".user-dropdown-container");
@@ -191,7 +201,7 @@ function capNhatTrangThaiDangNhap() {
             if (loginBtn && !loginBtn.closest('.user-dropdown-container')) {
                 loginBtn.remove();
             }
-            
+
             const dropdownHTML = `
                 <div class="user-dropdown-container">
                     <button class="login-btn">👤 ${user.tenDangNhap} ▼</button>

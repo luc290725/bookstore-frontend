@@ -1,3 +1,13 @@
+// Đoạn code chèn Header để vượt qua trang cảnh báo của Ngrok
+const originalFetch = window.fetch;
+window.fetch = function () {
+    let [resource, config] = arguments;
+    if (config === undefined) config = {};
+    if (config.headers === undefined) config.headers = {};
+    config.headers['ngrok-skip-browser-warning'] = '69420';
+    return originalFetch(resource, config);
+};
+
 const API = "http://localhost:8080/identity/api";
 
 // Biến lưu loại form đang mở (dùng để biết đang thêm hay sửa cái gì)
@@ -79,10 +89,10 @@ async function chuyenTab(tabName) {
     try {
         const response = await fetch(`admin-pages/${tabName}.html`);
         if (!response.ok) throw new Error("Không thể tải trang " + tabName);
-        
+
         const html = await response.text();
         document.getElementById("main-content").innerHTML = html;
-        
+
         // Hiện tab (sau khi load html xong thì tab-content mặc định ẩn, ta cần ép nó hiện lên)
         const tabContent = document.getElementById("tab-" + tabName);
         if (tabContent) {
@@ -202,29 +212,29 @@ function taiDashboard() {
 function renderRevenueChart(orders) {
     const chartContainer = document.getElementById("revenueChart");
     if (!chartContainer) return;
-    
+
     let chartHTML = '';
     const daysLabel = [];
     const revenueData = [];
-    
+
     // Tạo danh sách 7 ngày qua (định dạng YYYY-MM-DD)
     const today = new Date();
     for (let i = 6; i >= 0; i--) {
         const d = new Date(today);
         d.setDate(today.getDate() - i);
-        
+
         // Format YYYY-MM-DD
         const yyyy = d.getFullYear();
         const mm = String(d.getMonth() + 1).padStart(2, '0');
         const dd = String(d.getDate()).padStart(2, '0');
         const dateStr = `${yyyy}-${mm}-${dd}`;
-        
+
         // Tên thứ
         const dayOfWeek = d.getDay();
         const thuStr = dayOfWeek === 0 ? 'CN' : 'T' + (dayOfWeek + 1);
-        
+
         daysLabel.push(thuStr);
-        
+
         // Tính tổng doanh thu trong ngày (chỉ tính đơn ĐÃ GIAO hoặc không bị Hủy)
         let total = 0;
         if (orders && orders.length > 0) {
@@ -239,7 +249,7 @@ function renderRevenueChart(orders) {
         }
         revenueData.push(total);
     }
-    
+
     // Tìm giá trị max để tính % chiều cao cột
     let maxVal = Math.max(...revenueData);
     if (maxVal === 0) maxVal = 10000; // Tránh chia cho 0 nếu chưa có doanh thu
@@ -250,10 +260,10 @@ function renderRevenueChart(orders) {
         let height = (val / maxVal) * 100;
         if (height < 5) height = 5; // Cột tối thiểu 5% để nhìn thấy được
         if (height > 100) height = 100;
-        
+
         const displayVal = new Intl.NumberFormat('vi-VN').format(val);
         const shortVal = val >= 1000 ? (val / 1000).toFixed(0) + 'k' : val;
-        
+
         chartHTML += `
             <div class="chart-bar-wrapper">
                 <div class="chart-bar-value" style="opacity:0; transition: 0.3s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">${shortVal}</div>
@@ -281,7 +291,7 @@ function taiDanhSachSach() {
             listSachAdmin = data;
             sachCurrentPage = 1;
             const searchInput = document.getElementById("searchSach");
-            if(searchInput) searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             locSach();
         })
         .catch(err => console.error("Lỗi tải sách:", err));
@@ -299,12 +309,12 @@ function locSach() {
 function hienThiDanhSachSach(danhSach) {
     const tbody = document.getElementById("tableSach");
     const pagination = document.getElementById("paginationSach");
-    
+
     if (!tbody) return;
-    
+
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6">Không tìm thấy sách nào.</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -330,7 +340,7 @@ function hienThiDanhSachSach(danhSach) {
         </tr>
     `).join("");
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${sachCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangSach(${sachCurrentPage - 1})">« Trước</button>`;
@@ -653,7 +663,7 @@ function taiDanhSachKhachHang() {
 
 function locKhachHang() {
     const keyword = document.getElementById("searchKhachHang").value.toLowerCase();
-    
+
     const filtered = globalCustomers.filter(k => {
         const hoTen = (k.hoTen || "").toLowerCase();
         const email = (k.email || "").toLowerCase();
@@ -667,7 +677,7 @@ function locKhachHang() {
 function hienThiDanhSachKhachHang(danhSach) {
     const tbody = document.getElementById("tableKhachHang");
     const pagination = document.getElementById("paginationKhachHang");
-    
+
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6">Không tìm thấy khách hàng nào.</td></tr>';
         pagination.innerHTML = '';
@@ -717,7 +727,7 @@ function chuyenTrangKhachHang(page) {
 function xemChiTietKhachHang(id) {
     const kh = globalCustomers.find(k => k.id === id);
     if (!kh) return;
-    
+
     document.getElementById("dtCustId").innerText = kh.id;
     document.getElementById("dtCustAccId").innerText = kh.idTaiKhoan || 'Không có';
     document.getElementById("dtCustName").innerText = kh.hoTen || '-';
@@ -757,7 +767,7 @@ function dongModalCustomerEdit() {
 function luuKhachHang(event) {
     event.preventDefault();
     const id = document.getElementById("editCustId").value;
-    
+
     const body = {
         idTaiKhoan: document.getElementById("editCustAccId").value ? parseInt(document.getElementById("editCustAccId").value) : null,
         hoTen: document.getElementById("editCustName").value,
@@ -773,21 +783,21 @@ function luuKhachHang(event) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
     })
-    .then(async res => {
-        if (!res.ok) throw new Error(await res.text());
-        return res.text();
-    })
-    .then(msg => {
-        alert("Cập nhật thông tin khách hàng thành công!");
-        dongModalCustomerEdit();
-        taiDanhSachKhachHang();
-    })
-    .catch(err => alert("Lỗi: " + err.message));
+        .then(async res => {
+            if (!res.ok) throw new Error(await res.text());
+            return res.text();
+        })
+        .then(msg => {
+            alert("Cập nhật thông tin khách hàng thành công!");
+            dongModalCustomerEdit();
+            taiDanhSachKhachHang();
+        })
+        .catch(err => alert("Lỗi: " + err.message));
 }
 
 function xoaKhachHang(id) {
     if (!confirm("Bạn có chắc chắn muốn xóa khách hàng này không? Dữ liệu bị xóa sẽ không thể khôi phục!")) return;
-    
+
     fetch(`${API}/khachhang/${id}`, { method: "DELETE" })
         .then(async res => {
             if (!res.ok) {
@@ -800,9 +810,9 @@ function xoaKhachHang(id) {
             }
             return res.text();
         })
-        .then(msg => { 
-            alert("Xóa khách hàng thành công!"); 
-            taiDanhSachKhachHang(); 
+        .then(msg => {
+            alert("Xóa khách hàng thành công!");
+            taiDanhSachKhachHang();
         })
         .catch(err => alert("Lỗi: " + err.message));
 }
@@ -820,7 +830,7 @@ function taiDanhSachTheLoai() {
             globalTheLoai = data;
             theLoaiCurrentPage = 1;
             const searchInput = document.getElementById("searchTheLoai");
-            if(searchInput) searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             locTheLoai();
         })
         .catch(err => console.error("Lỗi:", err));
@@ -842,7 +852,7 @@ function hienThiDanhSachTheLoai(danhSach) {
 
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">Không tìm thấy thể loại nào.</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -865,7 +875,7 @@ function hienThiDanhSachTheLoai(danhSach) {
         </tr>
     `).join("");
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${theLoaiCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangTheLoai(${theLoaiCurrentPage - 1})">« Trước</button>`;
@@ -931,7 +941,7 @@ function taiDanhSachTacGia() {
             globalTacGia = data;
             tacGiaCurrentPage = 1;
             const searchInput = document.getElementById("searchTacGia");
-            if(searchInput) searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             locTacGia();
         })
         .catch(err => console.error("Lỗi:", err));
@@ -953,7 +963,7 @@ function hienThiDanhSachTacGia(danhSach) {
 
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3">Không tìm thấy tác giả nào.</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -976,7 +986,7 @@ function hienThiDanhSachTacGia(danhSach) {
         </tr>
     `).join("");
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${tacGiaCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangTacGia(${tacGiaCurrentPage - 1})">« Trước</button>`;
@@ -1100,7 +1110,7 @@ function xuLySubmitForm(event) {
         })
             .then(res => res.text())
             .then(msg => { alert("Lưu tác giả thành công!"); dongModal(); taiDanhSachTacGia(); });
-            
+
     } else if (currentFormType === "nxb") {
         const body = { tenNxb: document.getElementById("fTenNxb").value };
         const url = currentEditId ? `${API}/nhaxuatban/${currentEditId}` : `${API}/nhaxuatban`;
@@ -1112,7 +1122,7 @@ function xuLySubmitForm(event) {
         })
             .then(res => res.text())
             .then(msg => { alert(msg); dongModal(); loadNxb(); });
-            
+
     } else if (currentFormType === "them_khuyenmai" || currentFormType === "sua_khuyenmai") {
         const body = {
             maKhuyenMai: document.getElementById("fMaKhuyenMai").value,
@@ -1123,21 +1133,21 @@ function xuLySubmitForm(event) {
         };
         const url = currentEditId ? `${API}/khuyenmai/${currentEditId}` : `${API}/khuyenmai`;
         const method = currentEditId ? "PUT" : "POST";
-        
+
         fetch(url, {
             method: method,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         })
-        .then(async res => {
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text);
-            }
-            return res.text();
-        })
-        .then(msg => { alert("Lưu khuyến mãi thành công!"); dongModal(); taiDanhSachKhuyenMai(); })
-        .catch(err => alert("Lỗi lưu khuyến mãi: " + err.message));
+            .then(async res => {
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(text);
+                }
+                return res.text();
+            })
+            .then(msg => { alert("Lưu khuyến mãi thành công!"); dongModal(); taiDanhSachKhuyenMai(); })
+            .catch(err => alert("Lỗi lưu khuyến mãi: " + err.message));
     }
 }
 
@@ -1165,7 +1175,7 @@ function loadNxb() {
             globalNxb = data;
             nxbCurrentPage = 1;
             const searchInput = document.getElementById("searchNxb");
-            if(searchInput) searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             locNxb();
         })
         .catch(err => console.error('Lỗi tải NXB:', err));
@@ -1187,7 +1197,7 @@ function hienThiDanhSachNxb(danhSach) {
 
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="3" style="text-align:center">Không tìm thấy nhà xuất bản nào</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -1210,7 +1220,7 @@ function hienThiDanhSachNxb(danhSach) {
         </tr>
     `).join('');
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${nxbCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangNxb(${nxbCurrentPage - 1})">« Trước</button>`;
@@ -1358,7 +1368,7 @@ function taiDanhSachKhuyenMai() {
             globalKhuyenMai = data;
             khuyenMaiCurrentPage = 1;
             const searchInput = document.getElementById("searchKhuyenMai");
-            if(searchInput) searchInput.value = "";
+            if (searchInput) searchInput.value = "";
             locKhuyenMai();
         })
         .catch(err => console.error("Lỗi tải khuyến mãi:", err));
@@ -1380,7 +1390,7 @@ function hienThiDanhSachKhuyenMai(danhSach) {
 
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="6">Không tìm thấy khuyến mãi nào.</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -1406,7 +1416,7 @@ function hienThiDanhSachKhuyenMai(danhSach) {
         </tr>
     `).join("");
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${khuyenMaiCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangKhuyenMai(${khuyenMaiCurrentPage - 1})">« Trước</button>`;
@@ -1525,7 +1535,7 @@ async function taiDanhSachDanhGia() {
 
         danhGiaCurrentPage = 1;
         const searchInput = document.getElementById("searchDanhGia");
-        if(searchInput) searchInput.value = "";
+        if (searchInput) searchInput.value = "";
         locDanhGia();
     } catch (err) {
         console.error("Lỗi tải đánh giá:", err);
@@ -1549,7 +1559,7 @@ function hienThiDanhSachDanhGia(danhSach) {
 
     if (danhSach.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7">Không tìm thấy đánh giá nào</td></tr>';
-        if(pagination) pagination.innerHTML = '';
+        if (pagination) pagination.innerHTML = '';
         return;
     }
 
@@ -1565,7 +1575,7 @@ function hienThiDanhSachDanhGia(danhSach) {
         const tenSach = sachMap[item.idSach] || `Sách ID: ${item.idSach}`;
         const tenKhach = khMap[item.idKhachHang] || `Khách ID: ${item.idKhachHang}`;
         const sao = "⭐".repeat(item.soSao);
-        
+
         return `
             <tr>
                 <td>${item.id}</td>
@@ -1581,7 +1591,7 @@ function hienThiDanhSachDanhGia(danhSach) {
         `;
     }).join("");
 
-    if(pagination) {
+    if (pagination) {
         let pageHTML = '';
         if (totalPages > 1) {
             pageHTML += `<button class="page-btn" ${danhGiaCurrentPage === 1 ? 'disabled' : ''} onclick="chuyenTrangDanhGia(${danhGiaCurrentPage - 1})">« Trước</button>`;
