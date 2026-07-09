@@ -35,6 +35,7 @@
             </div>
             <ul class="account-menu">
                 <li class="active" onclick="switchTab('info', this)">Thông tin tài khoản</li>
+                <li onclick="switchTab('password', this)">Đổi mật khẩu</li>
                 <li onclick="switchTab('orders', this)">Đơn hàng đã đặt</li>
                 <li onclick="switchTab('vouchers', this)">Voucher đang có</li>
                 <li onclick="dangXuatKH()">Đăng xuất</li>
@@ -74,6 +75,28 @@
                     </div>
 
                     <button type="submit" class="auth-submit-btn acc-submit-btn">Lưu thay đổi</button>
+                </form>
+            </div>
+
+            <!-- Tab: Đổi mật khẩu -->
+            <div id="tab-password" class="tab-pane">
+                <h2 class="tab-title">Đổi mật khẩu</h2>
+                <form id="formDoiMatKhau" onsubmit="doiMatKhau(event)">
+                    <div class="acc-form-group">
+                        <label>Mật khẩu hiện tại</label>
+                        <input type="password" id="currentPassword" class="form-control acc-form-input" placeholder="Nhập mật khẩu hiện tại..." required>
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Mật khẩu mới</label>
+                        <input type="password" id="newPassword" class="form-control acc-form-input" placeholder="Nhập mật khẩu mới (ít nhất 6 ký tự)..." required minlength="6">
+                    </div>
+                    <div class="acc-form-group">
+                        <label>Xác nhận mật khẩu mới</label>
+                        <input type="password" id="confirmPassword" class="form-control acc-form-input" placeholder="Nhập lại mật khẩu mới..." required>
+                    </div>
+                    <div id="passwordError" style="color: #e74c3c; margin-bottom: 10px; display: none;"></div>
+                    <div id="passwordSuccess" style="color: #2ecc71; margin-bottom: 10px; display: none;"></div>
+                    <button type="submit" class="auth-submit-btn acc-submit-btn">Cập nhật mật khẩu</button>
                 </form>
             </div>
 
@@ -293,12 +316,10 @@
 
         function copyVoucher(code) {
             if (navigator.clipboard && window.isSecureContext) {
-                // navigator.clipboard yêu cầu HTTPS hoặc localhost
                 navigator.clipboard.writeText(code).then(() => {
                     alert("Đã copy mã: " + code);
                 });
             } else {
-                // Fallback dùng execCommand nếu chạy file:// hoặc HTTP thường
                 const textArea = document.createElement("textarea");
                 textArea.value = code;
                 textArea.style.position = "absolute";
@@ -314,6 +335,74 @@
                     textArea.remove();
                 }
             }
+        }
+
+        // ===== Đổi mật khẩu =====
+        function doiMatKhau(event) {
+            event.preventDefault();
+            const errorDiv = document.getElementById("passwordError");
+            const successDiv = document.getElementById("passwordSuccess");
+            errorDiv.style.display = "none";
+            successDiv.style.display = "none";
+
+            const user = JSON.parse(localStorage.getItem("user"));
+            if (!user) return;
+
+            const currentPw = document.getElementById("currentPassword").value;
+            const newPw = document.getElementById("newPassword").value;
+            const confirmPw = document.getElementById("confirmPassword").value;
+
+            // Kiểm tra mật khẩu mới khớp nhau
+            if (newPw !== confirmPw) {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = "Mật khẩu mới và xác nhận không khớp!";
+                return;
+            }
+
+            if (newPw.length < 6) {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = "Mật khẩu mới phải có ít nhất 6 ký tự!";
+                return;
+            }
+
+            // Bước 1: Xác thực mật khẩu cũ bằng cách gọi API login
+            fetch(`${API_BASE_URL}/taikhoan/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tenDangNhap: user.tenDangNhap, matKhau: currentPw })
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Mật khẩu hiện tại không đúng!");
+                }
+                return res.json();
+            })
+            .then(taiKhoan => {
+                // Bước 2: Cập nhật mật khẩu mới qua API PUT
+                return fetch(`${API_BASE_URL}/taikhoan/${taiKhoan.id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        tenDangNhap: taiKhoan.tenDangNhap,
+                        matKhau: newPw,
+                        email: taiKhoan.email,
+                        vaiTro: taiKhoan.vaiTro
+                    })
+                });
+            })
+            .then(res => {
+                if (res.ok) {
+                    successDiv.style.display = "block";
+                    successDiv.innerText = "Đổi mật khẩu thành công!";
+                    document.getElementById("formDoiMatKhau").reset();
+                } else {
+                    throw new Error("Lỗi khi cập nhật mật khẩu trên máy chủ!");
+                }
+            })
+            .catch(err => {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = err.message;
+            });
         }
     </script>
 </body>

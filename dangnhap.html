@@ -45,6 +45,9 @@
                 <div id="loginError" class="error-message" style="display:none;"></div>
 
                 <button type="submit" class="auth-submit-btn">Đăng nhập</button>
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="#" onclick="showTab('forgot'); return false;" style="color: #e74c3c; text-decoration: none; font-size: 14px;">Quên mật khẩu?</a>
+                </p>
             </form>
 
             <!-- Form Đăng ký -->
@@ -69,6 +72,44 @@
                 <div id="registerSuccess" class="success-message" style="display:none;"></div>
 
                 <button type="submit" class="auth-submit-btn">Đăng ký</button>
+            </form>
+
+            <!-- Form Quên mật khẩu -->
+            <form id="forgotForm" class="auth-form" style="display: none;" onsubmit="handleForgotPassword(event)">
+                <h2>Khôi phục mật khẩu</h2>
+                <p class="auth-subtitle">Nhập tên đăng nhập và email đã đăng ký để xác minh</p>
+
+                <div class="form-group">
+                    <label for="forgotUsername">Tên đăng nhập</label>
+                    <input type="text" id="forgotUsername" placeholder="Nhập tên đăng nhập" required>
+                </div>
+                <div class="form-group">
+                    <label for="forgotEmail">Email đã đăng ký</label>
+                    <input type="email" id="forgotEmail" placeholder="Nhập email xác minh" required>
+                </div>
+
+                <div id="forgotStep1" style="display:block;">
+                    <div id="forgotError" class="error-message" style="display:none;"></div>
+                    <button type="submit" class="auth-submit-btn">Xác minh tài khoản</button>
+                </div>
+
+                <div id="forgotStep2" style="display:none;">
+                    <div class="form-group">
+                        <label for="forgotNewPassword">Mật khẩu mới</label>
+                        <input type="password" id="forgotNewPassword" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="forgotConfirmPassword">Xác nhận mật khẩu mới</label>
+                        <input type="password" id="forgotConfirmPassword" placeholder="Nhập lại mật khẩu mới">
+                    </div>
+                    <div id="forgotError2" class="error-message" style="display:none;"></div>
+                    <div id="forgotSuccess" class="success-message" style="display:none;"></div>
+                    <button type="button" onclick="handleResetPassword()" class="auth-submit-btn">Đặt mật khẩu mới</button>
+                </div>
+
+                <p style="text-align: center; margin-top: 15px;">
+                    <a href="#" onclick="showTab('login'); return false;" style="color: #2c3e50; text-decoration: none; font-size: 14px;">← Quay lại đăng nhập</a>
+                </p>
             </form>
         </div>
     </main>
@@ -150,23 +191,28 @@
     <script>
         const API_BASE_URL = "http://localhost:8080/identity/api";
 
-        // Chuyển đổi giữa Tab Đăng nhập và Đăng ký
+        // Chuyển đổi giữa Tab Đăng nhập, Đăng ký, và Quên mật khẩu
         function showTab(tab) {
             const loginForm = document.getElementById("loginForm");
             const registerForm = document.getElementById("registerForm");
+            const forgotForm = document.getElementById("forgotForm");
             const tabLogin = document.getElementById("tabLogin");
             const tabRegister = document.getElementById("tabRegister");
 
+            loginForm.style.display = "none";
+            registerForm.style.display = "none";
+            forgotForm.style.display = "none";
+            tabLogin.classList.remove("active");
+            tabRegister.classList.remove("active");
+
             if (tab === "login") {
                 loginForm.style.display = "block";
-                registerForm.style.display = "none";
                 tabLogin.classList.add("active");
-                tabRegister.classList.remove("active");
-            } else {
-                loginForm.style.display = "none";
+            } else if (tab === "register") {
                 registerForm.style.display = "block";
-                tabLogin.classList.remove("active");
                 tabRegister.classList.add("active");
+            } else if (tab === "forgot") {
+                forgotForm.style.display = "block";
             }
         }
 
@@ -237,6 +283,83 @@
                 successDiv.style.display = "none";
                 errorDiv.style.display = "block";
                 errorDiv.innerText = error.message;
+            });
+        }
+
+        // ===== Xử lý Quên mật khẩu =====
+        let forgotAccountData = null; // Lưu tạm thông tin tài khoản đã xác minh
+
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            const username = document.getElementById("forgotUsername").value;
+            const email = document.getElementById("forgotEmail").value;
+            const errorDiv = document.getElementById("forgotError");
+            errorDiv.style.display = "none";
+
+            // Gọi API lấy tất cả tài khoản và tìm theo tên + email
+            fetch(`${API_BASE_URL}/taikhoan/search?keyword=${encodeURIComponent(username)}`)
+            .then(res => res.json())
+            .then(data => {
+                const matched = data.find(acc => acc.tenDangNhap === username && acc.email === email);
+                if (matched) {
+                    forgotAccountData = matched;
+                    // Ẩn bước 1, hiện bước 2 (đặt mật khẩu mới)
+                    document.getElementById("forgotStep1").style.display = "none";
+                    document.getElementById("forgotUsername").readOnly = true;
+                    document.getElementById("forgotEmail").readOnly = true;
+                    document.getElementById("forgotStep2").style.display = "block";
+                } else {
+                    errorDiv.style.display = "block";
+                    errorDiv.innerText = "Tên đăng nhập hoặc Email không khớp với tài khoản nào!";
+                }
+            })
+            .catch(() => {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = "Lỗi kết nối đến máy chủ!";
+            });
+        }
+
+        function handleResetPassword() {
+            const newPw = document.getElementById("forgotNewPassword").value;
+            const confirmPw = document.getElementById("forgotConfirmPassword").value;
+            const errorDiv = document.getElementById("forgotError2");
+            const successDiv = document.getElementById("forgotSuccess");
+            errorDiv.style.display = "none";
+            successDiv.style.display = "none";
+
+            if (!newPw || newPw.length < 6) {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = "Mật khẩu mới phải có ít nhất 6 ký tự!";
+                return;
+            }
+            if (newPw !== confirmPw) {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = "Mật khẩu mới và xác nhận không khớp!";
+                return;
+            }
+
+            fetch(`${API_BASE_URL}/taikhoan/${forgotAccountData.id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    tenDangNhap: forgotAccountData.tenDangNhap,
+                    matKhau: newPw,
+                    email: forgotAccountData.email,
+                    vaiTro: forgotAccountData.vaiTro
+                })
+            })
+            .then(res => {
+                if (res.ok) {
+                    successDiv.style.display = "block";
+                    successDiv.innerText = "Đặt mật khẩu mới thành công! Bạn có thể đăng nhập ngay.";
+                    document.getElementById("forgotStep2").querySelector("button").disabled = true;
+                } else {
+                    throw new Error("Lỗi khi cập nhật mật khẩu!");
+                }
+            })
+            .catch(err => {
+                errorDiv.style.display = "block";
+                errorDiv.innerText = err.message;
             });
         }
     </script>
