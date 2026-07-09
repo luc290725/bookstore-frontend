@@ -10,6 +10,23 @@ window.fetch = function () {
 
 const API = "http://localhost:8080/identity/api";
 
+// Bổ sung: Tự động đổi link ảnh localhost thành link Ngrok để máy khác xem được ảnh
+const baseUrlNgrok = API.replace('/api', '');
+const originalJson = Response.prototype.json;
+Response.prototype.json = function() {
+    return originalJson.call(this).then(data => {
+        let str = JSON.stringify(data);
+        str = str.replace(/http:\/\/localhost:8080\/identity/g, baseUrlNgrok);
+        return JSON.parse(str);
+    });
+};
+const originalText = Response.prototype.text;
+Response.prototype.text = function() {
+    return originalText.call(this).then(text => {
+        return text.replace(/http:\/\/localhost:8080\/identity/g, baseUrlNgrok);
+    });
+};
+
 // Biến lưu loại form đang mở (dùng để biết đang thêm hay sửa cái gì)
 let currentFormType = "";
 let currentEditId = null;

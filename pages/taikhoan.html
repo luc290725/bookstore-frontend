@@ -140,6 +140,17 @@
 
         // Kiểm tra hash trên URL để mở tab tương ứng (VD: taikhoan.html#orders)
         window.addEventListener('DOMContentLoaded', () => {
+            // Đoạn code chèn Header để vượt qua trang cảnh báo của Ngrok
+            const originalFetch = window.fetch;
+            window.fetch = function () {
+                let [resource, config] = arguments;
+                if (config === undefined) config = {};
+                if (config.headers === undefined) config.headers = {};
+                config.headers['ngrok-skip-browser-warning'] = '69420';
+                return originalFetch(resource, config);
+            };
+
+            const API_BASE_URL = "http://localhost:8080/identity/api";
             const hash = window.location.hash.replace('#', '');
             if (hash) {
                 const targetTab = document.querySelector(`.account-menu li[onclick*="'${hash}'"]`);

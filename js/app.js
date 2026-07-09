@@ -20,6 +20,23 @@ window.fetch = function () {
 
 const API_BASE_URL = "http://localhost:8080/identity/api";
 
+// Bổ sung: Tự động đổi link ảnh localhost thành link Ngrok để máy khác xem được ảnh
+const baseUrlNgrok = API_BASE_URL.replace('/api', '');
+const originalJson = Response.prototype.json;
+Response.prototype.json = function() {
+    return originalJson.call(this).then(data => {
+        let str = JSON.stringify(data);
+        str = str.replace(/http:\/\/localhost:8080\/identity/g, baseUrlNgrok);
+        return JSON.parse(str);
+    });
+};
+const originalText = Response.prototype.text;
+Response.prototype.text = function() {
+    return originalText.call(this).then(text => {
+        return text.replace(/http:\/\/localhost:8080\/identity/g, baseUrlNgrok);
+    });
+};
+
 let globalBooks = [];
 let currentCategoryId = null;
 

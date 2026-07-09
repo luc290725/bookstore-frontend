@@ -141,7 +141,28 @@
     </footer>
 
     <script>
+        // Đoạn code chèn Header để vượt qua trang cảnh báo của Ngrok
+        const originalFetch = window.fetch;
+        window.fetch = function () {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            config.headers['ngrok-skip-browser-warning'] = '69420';
+            return originalFetch(resource, config);
+        };
+
         const API_BASE_URL = "http://localhost:8080/identity/api";
+
+        // Tự động đổi link ảnh localhost thành link Ngrok để máy khác xem được ảnh
+        const baseUrlNgrok = API_BASE_URL.replace('/api', '');
+        const originalJson = Response.prototype.json;
+        Response.prototype.json = function() {
+            return originalJson.call(this).then(data => {
+                let str = JSON.stringify(data);
+                str = str.replace(/http:\/\/localhost:8080\/identity/g, baseUrlNgrok);
+                return JSON.parse(str);
+            });
+        };
 
         document.addEventListener("DOMContentLoaded", () => {
             // Lấy id sách từ URL (ví dụ: chitiet.html?id=5)

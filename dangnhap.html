@@ -189,6 +189,16 @@
     </footer>
 
     <script>
+        // Đoạn code chèn Header để vượt qua trang cảnh báo của Ngrok
+        const originalFetch = window.fetch;
+        window.fetch = function () {
+            let [resource, config] = arguments;
+            if (config === undefined) config = {};
+            if (config.headers === undefined) config.headers = {};
+            config.headers['ngrok-skip-browser-warning'] = '69420';
+            return originalFetch(resource, config);
+        };
+
         const API_BASE_URL = "http://localhost:8080/identity/api";
 
         // Chuyển đổi giữa Tab Đăng nhập, Đăng ký, và Quên mật khẩu
